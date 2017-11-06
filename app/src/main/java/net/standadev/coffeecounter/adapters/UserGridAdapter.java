@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import net.standadev.coffeecounter.R;
 import net.standadev.coffeecounter.activities.SelectIngredientActivity;
+import net.standadev.coffeecounter.activities.SelectUserActivity;
 import net.standadev.coffeecounter.data.Counter;
 import net.standadev.coffeecounter.data.User;
 import net.standadev.coffeecounter.data.UserCounter;
@@ -59,6 +61,23 @@ public class UserGridAdapter extends BaseAdapter implements AdapterView.OnItemCl
         //UserCounter userC = new User(0, "name");
         UserCounter uc = userCounters.get(position);
         userNameTextView.setText("Name: " + uc.getUser().getName());
+
+        // Ingredients grid view
+
+        User user = uc.getUser();
+        Counter counter = Counter.getInstance();
+        GridView gvIngredients;
+
+
+        IngredientGridAdapter ingredientGridAdapter;
+        ingredientGridAdapter = new IngredientGridAdapter(context, uc.getIngredientCounters(), user);
+
+
+        gvIngredients = (GridView) convertView.findViewById(R.id.gvIngredients);
+
+
+        //gvIngredients.setAdapter(ingredientGridAdapter);
+
 
         return convertView;
     }

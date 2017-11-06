@@ -4,13 +4,20 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvUserName"
+        android:id="@+id/tvIngredientTypeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView" />
 
-    <GridView
-        android:id="@+id/ivIngredients"
+    <TextView
+        android:id="@+id/tvIngredientName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 </LinearLayout>

@@ -57,8 +57,13 @@ public class Counter {
         mapIdUserCounters.put(user.getId(), uc);
     }
 
-    public void orderIngredient(User user, Ingredient ingredient, float quantity) {
+    public void orderIngredient(User user, Ingredient ingredient, float diff) {
+        // TODO Save order transaction to DB
+        UserCounter uc = getUserCounterFromId(user.getId());
+        IngredientCounter ic = getIngredientCounterFromId(ingredient.getId());
 
+        ic.addQuantity(diff);
+        addQuantity(uc.getIngredientCounters(), ingredient, diff);
     }
 
     public ArrayList<UserCounter> getListOfUserCounter() {
@@ -67,6 +72,10 @@ public class Counter {
 
     public UserCounter getUserCounterFromId(long id) {
         return mapIdUserCounters.get(id);
+    }
+
+    public IngredientCounter getIngredientCounterFromId(long id) {
+        return mapIdIngredientCounters.get(id);
     }
 
 
@@ -96,5 +105,14 @@ public class Counter {
         orderIngredient(us, ic, 2.0f);
         orderIngredient(us, im, 1.0f);
         orderIngredient(uv, im, 1.0f);
+    }
+
+    private void addQuantity(ArrayList<IngredientCounter> ingredientCounters, Ingredient ingredient, float diff){
+        for (IngredientCounter ic : ingredientCounters) {
+            if (ic.getIngredient().getId() == ingredient.getId()){
+                ic.addQuantity(diff);
+            }
+
+        }
     }
 }

@@ -26,4 +26,8 @@ public class IngredientCounter {
         return quantity;
     }
 
+    void addQuantity(float diff){
+        this.quantity += diff;
+    }
+
 }

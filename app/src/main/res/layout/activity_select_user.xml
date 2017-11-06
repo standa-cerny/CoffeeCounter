@@ -8,6 +8,7 @@
 
     <GridView
         android:id="@+id/gvUsers"
+        android:numColumns="3"
         android:layout_width="372dp"
         android:layout_height="497dp"
         android:layout_marginRight="8dp"
