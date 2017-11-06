@@ -3,6 +3,7 @@ package net.standadev.coffeecounter.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -66,6 +67,7 @@ public class UserGridAdapter extends BaseAdapter implements AdapterView.OnItemCl
 
         User user = uc.getUser();
         Counter counter = Counter.getInstance();
+
         GridView gvIngredients;
 
 
@@ -75,9 +77,13 @@ public class UserGridAdapter extends BaseAdapter implements AdapterView.OnItemCl
 
         gvIngredients = (GridView) convertView.findViewById(R.id.gvIngredients);
 
+        // Prevent nested grid view to be clicked (
+        gvIngredients.setClickable(false);
+        gvIngredients.setFocusable(false);
+        gvIngredients.setFocusableInTouchMode(false);
 
-        //gvIngredients.setAdapter(ingredientGridAdapter);
-
+        gvIngredients.setEnabled(false);
+        gvIngredients.setAdapter(ingredientGridAdapter);
 
         return convertView;
     }
@@ -92,7 +98,6 @@ public class UserGridAdapter extends BaseAdapter implements AdapterView.OnItemCl
         Intent intent = new Intent(context, SelectIngredientActivity.class);
         intent.putExtra(Counter.USER_ID, uc.getUser().getId());
         context.startActivity(intent);
-
     }
 
 }

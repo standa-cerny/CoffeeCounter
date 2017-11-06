@@ -26,6 +26,11 @@ public class SelectUserActivity extends AppCompatActivity {
         userGrid = (GridView) findViewById(R.id.gvUsers);
         userGrid.setAdapter(userGridAdapter);
         userGrid.setOnItemClickListener(userGridAdapter);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        userGridAdapter.notifyDataSetChanged();
     }
 }

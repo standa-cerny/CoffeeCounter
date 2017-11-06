@@ -3,6 +3,7 @@ package net.standadev.coffeecounter.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,13 +36,14 @@ public class IngredientGridAdapter extends IngredientBaseAdapter implements Adap
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_ingredient, null);
         }
 
-        TextView tvIngredientName = (TextView) convertView.findViewById(R.id.tvIngredientName);
-        TextView tvIngredientTypeName = (TextView) convertView.findViewById(R.id.tvIngredientTypeName);
-        TextView tvQuantity = (TextView) convertView.findViewById(R.id.tvQuantity);
+        TextView tvIngredientName = convertView.findViewById(R.id.tvIngredientName);
+        TextView tvIngredientTypeName = convertView.findViewById(R.id.tvIngredientTypeName);
+        TextView tvQuantity = convertView.findViewById(R.id.tvQuantity);
 
         //UserCounter userC = new User(0, "name");
         IngredientCounter ic = (IngredientCounter) getItem(position);
@@ -52,6 +54,7 @@ public class IngredientGridAdapter extends IngredientBaseAdapter implements Adap
 
         return convertView;
     }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
