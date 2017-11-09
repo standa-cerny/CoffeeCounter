@@ -4,4 +4,12 @@
 
     <string name="menu_add_user">Add user</string>
     <string name="menu_ingredients">Ingredients</string>
+
+    <string name="menu_change_user">Change user</string>
+
+    <string name="user_name">User name</string>
+    <string name="user_name_new">New user</string>
+    <string name="user_is_active">Active user</string>
+    <string name="save">Save</string>
+
 </resources>

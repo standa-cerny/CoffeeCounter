@@ -44,6 +44,18 @@ public class Counter {
         loadTestData();
     }
 
+    public void saveUser(User user) {
+        if (user.getId() > 10){
+            // new User
+            addUser(user);
+        } else {
+            // TODO save user modification to DB
+
+        }
+
+    }
+
+
     public void addUser(User user) {
         // TODO add user to DB
         ArrayList<IngredientCounter> uic;

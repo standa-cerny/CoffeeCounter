@@ -59,12 +59,11 @@ public class UserGridAdapter extends BaseAdapter implements AdapterView.OnItemCl
 
         TextView userNameTextView = (TextView) convertView.findViewById(R.id.tvUserName);
 
-        //UserCounter userC = new User(0, "name");
+        // UserCounter userC = new User(0, "name");
         UserCounter uc = userCounters.get(position);
         userNameTextView.setText("Name: " + uc.getUser().getName());
 
         // Ingredients grid view
-
         User user = uc.getUser();
         Counter counter = Counter.getInstance();
 

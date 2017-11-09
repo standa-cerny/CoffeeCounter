@@ -6,6 +6,7 @@ package net.standadev.coffeecounter.data;
 
 public class User extends BaseId {
 
+    private boolean isActive = true;
 
     public User(long id, String name) {
         super(id, name);
@@ -20,6 +21,7 @@ public class User extends BaseId {
         isActive = active;
     }
 
-    private boolean isActive = true;
+
+
 
 }
