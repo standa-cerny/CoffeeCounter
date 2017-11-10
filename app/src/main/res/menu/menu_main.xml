@@ -10,8 +10,10 @@
           android:icon="@drawable/ic_menu_add_user"
           compat:showAsAction="always"
         />
-    <item android:id="@+id/menu_ingredients"
-          android:title="@string/menu_ingredients"/>
+    <item android:id="@+id/menu_select_statement"
+          android:title="@string/menu_ingredients"
+          android:icon="@drawable/ic_menu_select_statement"
+          compat:showAsAction="always"/>
 
 
 </menu>

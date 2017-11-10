@@ -81,6 +81,9 @@ public class Counter {
     public ArrayList<UserCounter> getListOfUserCounter() {
         return userCounters;
     }
+    public ArrayList<IngredientCounter> getListOfIngredientCounter() {
+        return ingredientCounters;
+    }
 
     public UserCounter getUserCounterFromId(long id) {
         return mapIdUserCounters.get(id);

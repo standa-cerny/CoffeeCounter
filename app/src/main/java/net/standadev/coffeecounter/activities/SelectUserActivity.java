@@ -49,15 +49,17 @@ public class SelectUserActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         Context context = SelectUserActivity.this;
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.menu_add_user:
 
-                Intent intent = new Intent(context, ChangeUserActivity.class);
+                intent = new Intent(context, ChangeUserActivity.class);
                 intent.putExtra(Counter.USER_ID, 0);
                 context.startActivity(intent);
                 return true;
-            case R.id.menu_ingredients:
-
+            case R.id.menu_select_statement:
+                intent = new Intent(context, SelectStatementActivity.class);
+                context.startActivity(intent);
                 return true;
 
             default:

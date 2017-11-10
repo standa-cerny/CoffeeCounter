@@ -19,7 +19,8 @@
         <activity android:name=".activities.SelectIngredientActivity">
             android:parentActivityName=".SelectUserActivity" >
         </activity>
-        <activity android:name=".activities.ChangeUserActivity"></activity>
+        <activity android:name=".activities.ChangeUserActivity" />
+        <activity android:name=".activities.SelectStatementActivity"></activity>
     </application>
 
 </manifest>
