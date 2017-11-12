@@ -12,4 +12,6 @@
     <string name="user_is_active">Active user</string>
     <string name="save">Save</string>
 
+    <string name="statement_close">Close statement</string>
+
 </resources>

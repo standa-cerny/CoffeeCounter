@@ -78,6 +78,17 @@ public class Counter {
         addQuantity(uc.getIngredientCounters(), ingredient, diff);
     }
 
+    public void closeStatement(Ingredient ingredient){
+        // Clear total counter
+        ingredientCounters.get(ingredient.getCounterIndex()).clear();
+
+        // Clear user counters
+        int index = ingredient.getCounterIndex();
+        for (UserCounter uc : userCounters){
+            uc.getIngredientCounters().get(index).clear();
+        }
+    }
+
     public ArrayList<UserCounter> getListOfUserCounter() {
         return userCounters;
     }
@@ -96,14 +107,10 @@ public class Counter {
 
     private void loadTestData() {
         Ingredient ic = new Ingredient(1, "Brasilia Santos", new IngredientType(1, "coffee"));
-        IngredientCounter icc = new IngredientCounter(ic, 0);
-        ingredientCounters.add(icc);
-        mapIdIngredientCounters.put(ic.getId(), icc);
+        addIngredient(ic);
 
         Ingredient im = new Ingredient(2, "Lidl milk", new IngredientType(2, "milk"));
-        IngredientCounter imc = new IngredientCounter(im, 0);
-        ingredientCounters.add(new IngredientCounter(im, 0));
-        mapIdIngredientCounters.put(im.getId(), imc);
+        addIngredient(im);
 
         User us = new User(1, "Standa");
         addUser(us);
@@ -122,12 +129,17 @@ public class Counter {
         orderIngredient(uv, im, 1.0f);
     }
 
-    private void addQuantity(ArrayList<IngredientCounter> ingredientCounters, Ingredient ingredient, float diff){
-        for (IngredientCounter ic : ingredientCounters) {
-            if (ic.getIngredient().getId() == ingredient.getId()){
-                ic.addQuantity(diff);
-            }
+    private void addIngredient(Ingredient ingredient){
+        // Save index to ingredient counters
+        ingredient.setCounterIndex(ingredientCounters.size());
 
-        }
+        // Add ingredient to counters
+        IngredientCounter ic = new IngredientCounter(ingredient, 0);
+        ingredientCounters.add(ic);
+        mapIdIngredientCounters.put(ingredient.getId(), ic);
+    }
+
+    private void addQuantity(ArrayList<IngredientCounter> ingredientCounters, Ingredient ingredient, float diff){
+        ingredientCounters.get(ingredient.getCounterIndex()).addQuantity(diff);
     }
 }

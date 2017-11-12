@@ -3,7 +3,6 @@ package net.standadev.coffeecounter.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import net.standadev.coffeecounter.R;
 import net.standadev.coffeecounter.activities.SelectIngredientActivity;
-import net.standadev.coffeecounter.activities.SelectUserActivity;
 import net.standadev.coffeecounter.data.Counter;
 import net.standadev.coffeecounter.data.User;
 import net.standadev.coffeecounter.data.UserCounter;
@@ -24,30 +22,9 @@ import java.util.ArrayList;
  * Created by Standa on 05.11.2017.
  */
 
-public class UserGridAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
-    private Context context;
-    private ArrayList<UserCounter> userCounters;
-    private static LayoutInflater inflater = null;
-
+public class UserGridAdapter extends UserBaseAdapter implements AdapterView.OnItemClickListener {
     public UserGridAdapter(Context context, ArrayList<UserCounter> userCounters) {
-        this.context = context;
-        this.userCounters = userCounters;
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    @Override
-    public int getCount() {
-        return userCounters.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return position;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
+        super(context, userCounters);
     }
 
     @Override
@@ -57,7 +34,7 @@ public class UserGridAdapter extends BaseAdapter implements AdapterView.OnItemCl
             convertView = inflater.inflate(R.layout.item_user, null);
         }
 
-        TextView userNameTextView = (TextView) convertView.findViewById(R.id.tvUserName);
+        TextView userNameTextView = (TextView) convertView.findViewById(R.id.tvQuantity);
 
         // UserCounter userC = new User(0, "name");
         UserCounter uc = userCounters.get(position);
@@ -70,8 +47,8 @@ public class UserGridAdapter extends BaseAdapter implements AdapterView.OnItemCl
         GridView gvIngredients;
 
 
-        IngredientGridAdapter ingredientGridAdapter;
-        ingredientGridAdapter = new IngredientGridAdapter(context, uc.getIngredientCounters(), user);
+        IngredientUserGridAdapter ingredientGridAdapter;
+        ingredientGridAdapter = new IngredientUserGridAdapter(context, uc.getIngredientCounters(), user);
 
 
         gvIngredients = (GridView) convertView.findViewById(R.id.gvIngredients);

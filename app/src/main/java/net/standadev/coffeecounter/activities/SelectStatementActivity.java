@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.widget.GridView;
 
 import net.standadev.coffeecounter.R;
-import net.standadev.coffeecounter.adapters.IngredientGridAdapter;
+import net.standadev.coffeecounter.adapters.IngredientBaseAdapter;
+import net.standadev.coffeecounter.adapters.IngredientTotalGridAdapter;
+import net.standadev.coffeecounter.adapters.IngredientUserGridAdapter;
 import net.standadev.coffeecounter.data.Counter;
 
 public class SelectStatementActivity extends AppCompatActivity {
@@ -18,14 +20,14 @@ public class SelectStatementActivity extends AppCompatActivity {
         // Ingredients grid view
         Counter counter = Counter.getInstance();
         GridView gvIngredients;
-        IngredientGridAdapter ingredientGridAdapter;
-        ingredientGridAdapter = new IngredientGridAdapter(SelectStatementActivity.this, counter.getListOfIngredientCounter(), null);
+        IngredientTotalGridAdapter ingredientGridAdapter;
+        ingredientGridAdapter = new IngredientTotalGridAdapter(SelectStatementActivity.this, counter.getListOfIngredientCounter());
 
         gvIngredients = (GridView) findViewById(R.id.gvIngredients);
         gvIngredients.setAdapter(ingredientGridAdapter);
 
         // TODO Split ingredientGridAdapter to user implement different OnItemClick listener
-        //gvIngredients.setOnItemClickListener(ingredientGridAdapter);
+        gvIngredients.setOnItemClickListener(ingredientGridAdapter);
 
     }
 }

@@ -25,10 +25,10 @@ import java.util.ArrayList;
  * Created by ces9cj on 6.11.2017.
  */
 
-public class IngredientGridAdapter extends IngredientBaseAdapter implements AdapterView.OnItemClickListener {
+public class IngredientUserGridAdapter extends IngredientBaseAdapter implements AdapterView.OnItemClickListener {
     protected User user;
 
-    public IngredientGridAdapter(Context context, ArrayList<IngredientCounter> ingredientCounters, User user) {
+    public IngredientUserGridAdapter(Context context, ArrayList<IngredientCounter> ingredientCounters, User user) {
         super(context, ingredientCounters);
         this.user = user;
     }

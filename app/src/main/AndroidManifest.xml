@@ -20,7 +20,8 @@
             android:parentActivityName=".SelectUserActivity" >
         </activity>
         <activity android:name=".activities.ChangeUserActivity" />
-        <activity android:name=".activities.SelectStatementActivity"></activity>
+        <activity android:name=".activities.SelectStatementActivity" />
+        <activity android:name=".activities.StatementActivity"></activity>
     </application>
 
 </manifest>

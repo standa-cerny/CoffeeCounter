@@ -10,10 +10,8 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import net.standadev.coffeecounter.R;
-import net.standadev.coffeecounter.adapters.IngredientGridAdapter;
-import net.standadev.coffeecounter.adapters.UserGridAdapter;
+import net.standadev.coffeecounter.adapters.IngredientUserGridAdapter;
 import net.standadev.coffeecounter.data.Counter;
-import net.standadev.coffeecounter.data.Ingredient;
 import net.standadev.coffeecounter.data.User;
 import net.standadev.coffeecounter.data.UserCounter;
 
@@ -37,8 +35,8 @@ public class SelectIngredientActivity extends AppCompatActivity {
         // Ingredients grid view
         Counter counter = Counter.getInstance();
         GridView gvIngredients;
-        IngredientGridAdapter ingredientGridAdapter;
-        ingredientGridAdapter = new IngredientGridAdapter(SelectIngredientActivity.this, uc.getIngredientCounters(), user);
+        IngredientUserGridAdapter ingredientGridAdapter;
+        ingredientGridAdapter = new IngredientUserGridAdapter(SelectIngredientActivity.this, uc.getIngredientCounters(), user);
 
         gvIngredients = (GridView) findViewById(R.id.gvIngredients);
         gvIngredients.setAdapter(ingredientGridAdapter);
@@ -77,7 +75,7 @@ public class SelectIngredientActivity extends AppCompatActivity {
     private void loadUser(){
         String message = "user id: " + user.getId() + " " + user.getName();
         // Capture the layout's TextView and set the string as its text
-        TextView textView = (TextView) findViewById(R.id.tvUserName);
+        TextView textView = (TextView) findViewById(R.id.tvQuantity);
         textView.setText(message);
     }
 
