@@ -26,7 +26,7 @@ public class SelectUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_user);
 
-        Counter counter = Counter.getInstance();
+        Counter counter = Counter.getInstance(SelectUserActivity.this);
         userGridAdapter = new UserGridAdapter(SelectUserActivity.this, counter.getListOfUserCounter());
 
         userGrid = (GridView) findViewById(R.id.gvUsers);

@@ -43,15 +43,13 @@ public class ChangeUserActivity extends AppCompatActivity {
             etUserName.setText(user.getName());
             cbUserIsActive.setChecked(user.isActive());
         } else {
-            userId++;
-            user = new User(userId, "");
-
+            user = new User(0, "");
             cbUserIsActive.setChecked(true);
         }
 
     }
 
-    public void OnSaveButtonClick(View view) {
+    public void onSaveButtonClick(View view) {
 
         // TODO set new values
         user.setName(etUserName.getText().toString());

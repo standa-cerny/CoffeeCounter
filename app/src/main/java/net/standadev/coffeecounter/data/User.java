@@ -23,5 +23,4 @@ public class User extends BaseId {
 
 
 
-
 }

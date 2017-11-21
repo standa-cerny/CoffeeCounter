@@ -1,5 +1,9 @@
 package net.standadev.coffeecounter.data;
 
+import android.content.Context;
+
+import net.standadev.coffeecounter.data.db.CounterDataProvider;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,23 +23,32 @@ public class Counter {
     private Map<Long, UserCounter> mapIdUserCounters;
     private Map<Long, IngredientCounter> mapIdIngredientCounters;
 
-    protected Counter() {
+    private CounterDataProvider dataProvider;
+
+    protected Counter(Context context) {
         ingredientCounters = new ArrayList<IngredientCounter>();
         userCounters = new ArrayList<UserCounter>();
 
         mapIdUserCounters = new HashMap<Long, UserCounter>();
         mapIdIngredientCounters = new HashMap<Long, IngredientCounter>();
 
+        dataProvider = new CounterDataProvider(context);
+
     }
 
-    static public Counter getInstance() {
+    static public Counter getInstance(Context context) {
         if (instance == null) {
-            instance = new Counter();
+            instance = new Counter(context);
             instance.reload();
         }
 
         return instance;
     }
+
+    static public Counter getInstance() {
+        return instance;
+    }
+
 
     public void reload() {
         ingredientCounters.clear();
@@ -45,18 +58,18 @@ public class Counter {
     }
 
     public void saveUser(User user) {
-        if (user.getId() > 10){
-            // new User
-            addUser(user);
-        } else {
-            // TODO save user modification to DB
+        if (user.getId() > 0){
+            dataProvider.updateUser(user);
 
+        } else {
+            dataProvider.insertUser(user);
+            loadUser(user);
         }
 
     }
 
 
-    public void addUser(User user) {
+    public void loadUser(User user) {
         // TODO add user to DB
         ArrayList<IngredientCounter> uic;
         uic = new ArrayList<IngredientCounter>();
@@ -112,21 +125,27 @@ public class Counter {
         Ingredient im = new Ingredient(2, "Lidl milk", new IngredientType(2, "milk"));
         addIngredient(im);
 
-        User us = new User(1, "Standa");
-        addUser(us);
+        for (User user : dataProvider.getListOfUsers()){
+            loadUser(user);
+        }
 
-        User uv = new User(2, "Vlaďa");
-        addUser(uv);
+        if (0 == 1) {
+            User us = new User(1, "Standa");
+            loadUser(us);
 
-        User ur = new User(3, "Robert");
-        addUser(ur);
+            User uv = new User(2, "Vlaďa");
+            loadUser(uv);
 
-        User um = new User(4, "Michal");
-        addUser(um);
+            User ur = new User(3, "Robert");
+            loadUser(ur);
 
-        orderIngredient(us, ic, 2.0f);
-        orderIngredient(us, im, 1.0f);
-        orderIngredient(uv, im, 1.0f);
+            User um = new User(4, "Michal");
+            loadUser(um);
+
+            orderIngredient(us, ic, 2.0f);
+            orderIngredient(us, im, 1.0f);
+            orderIngredient(uv, im, 1.0f);
+        }
     }
 
     private void addIngredient(Ingredient ingredient){
