@@ -1,22 +1,17 @@
 package net.standadev.coffeecounter.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import net.standadev.coffeecounter.R;
-import net.standadev.coffeecounter.activities.SelectIngredientActivity;
 import net.standadev.coffeecounter.data.Counter;
 import net.standadev.coffeecounter.data.Ingredient;
 import net.standadev.coffeecounter.data.IngredientCounter;
+import net.standadev.coffeecounter.data.IngredientOrder;
 import net.standadev.coffeecounter.data.User;
-import net.standadev.coffeecounter.data.UserCounter;
 
 import java.util.ArrayList;
 
@@ -64,7 +59,7 @@ public class IngredientUserGridAdapter extends IngredientBaseAdapter implements 
         Context context = view.getContext();
 
         Counter c = Counter.getInstance();
-        c.orderIngredient(user, ic.getIngredient(), 1.0f);
+        c.saveIngredientOrder( new IngredientOrder(ic.getIngredient(),  user, 1.0f));
 
         this.notifyDataSetChanged();
     }

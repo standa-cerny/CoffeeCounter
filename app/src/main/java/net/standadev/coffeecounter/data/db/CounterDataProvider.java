@@ -8,6 +8,7 @@ import android.provider.BaseColumns;
 
 import net.standadev.coffeecounter.data.BaseId;
 import net.standadev.coffeecounter.data.Ingredient;
+import net.standadev.coffeecounter.data.IngredientOrder;
 import net.standadev.coffeecounter.data.IngredientType;
 import net.standadev.coffeecounter.data.User;
 
@@ -160,6 +161,53 @@ public class CounterDataProvider {
         }
         cursor.close();
 
+        return result;
+    }
+
+    public ArrayList<IngredientOrder> getListOfIngredientOrders(Ingredient ingredient){
+
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        // Projection
+        String[] projection = {
+                CounterDb.IOrders.COL_INGREDIENT_ID,
+                CounterDb.IOrders.COL_USER_ID,
+                CounterDb.IOrders.COL_QUANTITY,
+        };
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = CounterDb.IOrders.COL_INGREDIENT_ID + " = ?";
+        String[] selectionArgs = { (new Long(ingredient.getId())).toString() };
+
+        // Query
+        Cursor cursor = db.query(
+                CounterDb.IOrders.TABLE_NAME,            // The table to query
+                projection,                            // The columns to return
+                selection,                             // The columns for the WHERE clause
+                selectionArgs,                         // The values for the WHERE clause
+                null,                                  // don't group the rows
+                null,                                  // don't filter by row groups
+                null                                   // The sort order
+        );
+
+        ArrayList<IngredientOrder> result = new ArrayList<IngredientOrder>();
+        while(cursor.moveToNext()) {
+            // Load basic ingredient data
+            long userId = cursor.getLong(
+                    cursor.getColumnIndexOrThrow(CounterDb.IOrders.COL_USER_ID));
+
+            long ingredientId = cursor.getLong(
+                    cursor.getColumnIndexOrThrow(CounterDb.IOrders.COL_INGREDIENT_ID));
+
+            float quantity = cursor.getFloat(
+                    cursor.getColumnIndexOrThrow(CounterDb.IOrders.COL_QUANTITY));
+
+
+            IngredientOrder io = new IngredientOrder(ingredientId, userId, quantity);
+            result.add(io);
+        }
+        cursor.close();
         return result;
     }
 

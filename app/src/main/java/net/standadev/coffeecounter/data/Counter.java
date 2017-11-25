@@ -58,7 +58,7 @@ public class Counter {
     }
 
     public void saveUser(User user) {
-        if (user.getId() > 0){
+        if (user.getId() > 0) {
             dataProvider.update(user);
 
         } else {
@@ -76,46 +76,51 @@ public class Counter {
         for (IngredientCounter ic : ingredientCounters) {
             uic.add(new IngredientCounter(ic.getIngredient()));
         }
-        UserCounter uc =new UserCounter(user, uic);
+        UserCounter uc = new UserCounter(user, uic);
         userCounters.add(uc);
         mapIdUserCounters.put(user.getId(), uc);
     }
 
-    public void saveIngredient(Ingredient ingredient){
+    public void saveIngredient(Ingredient ingredient) {
         // Save ingredient type
         IngredientType ingredientType = ingredient.getIngredientType();
         if (ingredientType.getId() > 0) {
             dataProvider.update(ingredientType);
-        }else{
+        } else {
             dataProvider.insert(ingredient.getIngredientType());
         }
 
         // Save ingredient
         if (ingredient.getId() > 0) {
             dataProvider.update(ingredient);
-        }else{
+        } else {
             dataProvider.insert(ingredient);
             reload();
         }
 
     }
 
-    public void orderIngredient(User user, Ingredient ingredient, float diff) {
-        // TODO Save order transaction to DB
-        UserCounter uc = getUserCounterFromId(user.getId());
-        IngredientCounter ic = getIngredientCounterFromId(ingredient.getId());
-
-        ic.addQuantity(diff);
-        addQuantity(uc.getIngredientCounters(), ingredient, diff);
+    public void saveIngredientOrder(IngredientOrder order) {
+        dataProvider.insert(order);
+        loadIngredientOrder(order);
     }
 
-    public void closeStatement(Ingredient ingredient){
+    public void loadIngredientOrder(IngredientOrder order) {
+        // TODO Save order transaction to DB
+        UserCounter uc = getUserCounterFromId(order.getUserId());
+        IngredientCounter ic = getIngredientCounterFromId(order.getIngredientId());
+
+        ic.addQuantity(order.getQuantity());
+        addQuantity(uc.getIngredientCounters(), ic.getIngredient(), order.getQuantity());
+    }
+
+    public void closeStatement(Ingredient ingredient) {
         // Clear total counter
         ingredientCounters.get(ingredient.getCounterIndex()).clear();
 
         // Clear user counters
         int index = ingredient.getCounterIndex();
-        for (UserCounter uc : userCounters){
+        for (UserCounter uc : userCounters) {
             uc.getIngredientCounters().get(index).clear();
         }
     }
@@ -123,6 +128,7 @@ public class Counter {
     public ArrayList<UserCounter> getListOfUserCounter() {
         return userCounters;
     }
+
     public ArrayList<IngredientCounter> getListOfIngredientCounter() {
         return ingredientCounters;
     }
@@ -145,12 +151,21 @@ public class Counter {
             loadIngredient(im);
         }
 
-        for (Ingredient ingredient : dataProvider.getListOfIngredients()){
+        // Load ingredients from DB
+        for (Ingredient ingredient : dataProvider.getListOfIngredients()) {
             loadIngredient(ingredient);
         }
 
-        for (User user : dataProvider.getListOfUsers()){
+        // Load users from DB
+        for (User user : dataProvider.getListOfUsers()) {
             loadUser(user);
+        }
+
+        // Load ingredient orders from DB
+        for (IngredientCounter ic : getListOfIngredientCounter()) {
+            for (IngredientOrder io : dataProvider.getListOfIngredientOrders(ic.getIngredient())) {
+                loadIngredientOrder(io);
+            }
         }
 
         if (0 == 1) {
@@ -166,13 +181,13 @@ public class Counter {
             User um = new User(4, "Michal");
             loadUser(um);
 
-            //orderIngredient(us, ic, 2.0f);
-            //orderIngredient(us, im, 1.0f);
-            //orderIngredient(uv, im, 1.0f);
+            //saveIngredientOrder(us, ic, 2.0f);
+            //saveIngredientOrder(us, im, 1.0f);
+            //saveIngredientOrder(uv, im, 1.0f);
         }
     }
 
-    private void loadIngredient(Ingredient ingredient){
+    private void loadIngredient(Ingredient ingredient) {
         // Save index to ingredient counters
         ingredient.setCounterIndex(ingredientCounters.size());
 
@@ -182,7 +197,7 @@ public class Counter {
         mapIdIngredientCounters.put(ingredient.getId(), ic);
     }
 
-    private void addQuantity(ArrayList<IngredientCounter> ingredientCounters, Ingredient ingredient, float diff){
+    private void addQuantity(ArrayList<IngredientCounter> ingredientCounters, Ingredient ingredient, float diff) {
         ingredientCounters.get(ingredient.getCounterIndex()).addQuantity(diff);
     }
 }
