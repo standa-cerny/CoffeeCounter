@@ -13,6 +13,7 @@ import net.standadev.coffeecounter.data.IngredientType;
 import net.standadev.coffeecounter.data.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static android.R.attr.id;
 
@@ -117,10 +118,15 @@ public class CounterDataProvider {
                 CounterDb.IList.COL_NAME,
                 CounterDb.IList.COL_TYPE_ID,
                 CounterDb.IList.COL_PRICE,
+                CounterDb.IList.COL_CURRENCY,
+                CounterDb.IList.COL_QUANTITY,
+                CounterDb.IList.COL_UNIT,
+                CounterDb.IList.COL_BEGIN,
+                CounterDb.IList.COL_END,
         };
 
 // Filter results WHERE "title" = 'My Title'
-        String selection = CounterDb.IList.COL_END + " is not null";
+        String selection = CounterDb.IList.COL_CLOSED + " = 0";
         String[] selectionArgs = {  };
 
         // Sort order
@@ -131,7 +137,7 @@ public class CounterDataProvider {
         Cursor cursor = db.query(
                 CounterDb.IList.TABLE_NAME,            // The table to query
                 projection,                            // The columns to return
-                null, //selection,                             // The columns for the WHERE clause
+                selection,                             // The columns for the WHERE clause
                 null, //selectionArgs,                         // The values for the WHERE clause
                 null,                                  // don't group the rows
                 null,                                  // don't filter by row groups
@@ -156,6 +162,20 @@ public class CounterDataProvider {
             float price = cursor.getFloat(
                     cursor.getColumnIndexOrThrow(CounterDb.IList.COL_PRICE));
             ingredient.setPrice(price);
+
+            // Load quantity
+            float quantity = cursor.getFloat(
+                    cursor.getColumnIndexOrThrow(CounterDb.IList.COL_QUANTITY));
+            ingredient.setQuantity(quantity);
+
+            // Load period of ingredient
+            long begin = cursor.getLong(
+                    cursor.getColumnIndexOrThrow(CounterDb.IList.COL_BEGIN));
+            ingredient.setBegin(new Date(begin));
+
+            long end = cursor.getLong(
+                    cursor.getColumnIndexOrThrow(CounterDb.IList.COL_END));
+            ingredient.setEnd(new Date(end));
 
             result.add(ingredient);
         }
@@ -182,7 +202,7 @@ public class CounterDataProvider {
 
         // Query
         Cursor cursor = db.query(
-                CounterDb.IOrders.TABLE_NAME,            // The table to query
+                CounterDb.IOrders.TABLE_NAME,          // The table to query
                 projection,                            // The columns to return
                 selection,                             // The columns for the WHERE clause
                 selectionArgs,                         // The values for the WHERE clause

@@ -95,4 +95,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintBottom_toTopOf="@+id/btnCloseStatement"
         android:layout_marginBottom="32dp" />
+
+    <TextView
+        android:id="@+id/tvBegin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        android:text="TextView"
+        app:layout_constraintLeft_toRightOf="@+id/tvUnitPrice"
+        app:layout_constraintTop_toTopOf="@+id/tvUnitPrice" />
 </android.support.constraint.ConstraintLayout>

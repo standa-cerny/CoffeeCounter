@@ -109,5 +109,8 @@ public class StatementActivity extends AppCompatActivity {
 
         TextView tvUnitPrice = (TextView) findViewById(R.id.tvUnitPrice);
         tvUnitPrice.setText("Unit price: " + ingredientCounter.getUnitPrice());
+
+        TextView tvBegin = (TextView) findViewById(R.id.tvBegin);
+        tvBegin.setText("Begin: " + ingredientCounter.getIngredient().getBegin());
     }
 }

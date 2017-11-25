@@ -15,15 +15,15 @@
         android:layout_marginTop="8dp"
         android:onClick="onSaveButtonClick"
         android:text="@string/save"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/guideline"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etIngredientPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/etIngredientQuantity" />
 
     <EditText
         android:id="@+id/etIngredientType"
         android:layout_width="0dp"
-        android:layout_height="41dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
@@ -78,25 +78,25 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="numberDecimal"
-        app:layout_constraintHorizontal_bias="0.384"
         app:layout_constraintLeft_toLeftOf="@+id/guideline"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etIngredientName" />
+        app:layout_constraintTop_toBottomOf="@+id/etIngredientName"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toLeftOf="@+id/etIngredientCurrency" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="0dp"
         android:layout_height="18dp"
-        android:layout_marginLeft="0dp"
         android:layout_marginRight="8dp"
         android:text="@string/ingredient_price"
         app:layout_constraintBaseline_toBaselineOf="@+id/etIngredientPrice"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        android:layout_marginLeft="0dp"
         app:layout_constraintLeft_toLeftOf="@+id/textView3"
-        app:layout_constraintRight_toLeftOf="@+id/guideline" />
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
 
     <ImageButton
         android:id="@+id/btnUnlock"
-        android:layout_width="56dp"
+        android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_marginBottom="0dp"
         android:layout_marginRight="8dp"
@@ -118,4 +118,50 @@
         app:layout_constraintTop_toTopOf="@+id/etIngredientType"
         app:layout_constraintVertical_bias="0.545"
         app:srcCompat="@drawable/ic_unlock" />
+
+    <EditText
+        android:id="@+id/etIngredientQuantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        app:layout_constraintRight_toRightOf="@+id/etIngredientPrice"
+        app:layout_constraintTop_toBottomOf="@+id/etIngredientPrice" />
+
+    <EditText
+        android:id="@+id/etIngredientCurrency"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:inputType="none"
+        android:text="Name"
+        app:layout_constraintBaseline_toBaselineOf="@+id/etIngredientPrice"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/ingredient_quantity"
+        app:layout_constraintBaseline_toBaselineOf="@+id/etIngredientQuantity"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/textView4"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        android:layout_marginRight="8dp" />
+
+    <EditText
+        android:id="@+id/etIngredientUnit"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:inputType="none"
+        android:text="Name"
+        app:layout_constraintBaseline_toBaselineOf="@+id/etIngredientQuantity"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>

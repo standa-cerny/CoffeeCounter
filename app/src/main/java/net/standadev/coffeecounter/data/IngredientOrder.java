@@ -4,9 +4,9 @@ import android.content.ContentValues;
 
 
 import net.standadev.coffeecounter.data.db.CounterDb;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
+
 
 /**
  * Created by Standa on 25.11.2017.
@@ -38,9 +38,8 @@ public class IngredientOrder extends BaseId {
         values.put(CounterDb.IOrders.COL_QUANTITY, getQuantity());
 
         // set the format to sql date time
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date now = new Date();
-        values.put(CounterDb.IOrders.COL_DATETIME, dateFormat.format(now) );
+
+        values.put(CounterDb.IOrders.COL_DATETIME, CounterDb.getDateTime(new Date()) );
 
         return values;
     }

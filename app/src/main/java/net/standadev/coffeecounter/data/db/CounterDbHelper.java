@@ -40,11 +40,16 @@ public class CounterDbHelper extends SQLiteOpenHelper {
                 + IList.COL_PRICE    + " REAL,"
                 + IList.COL_CURRENCY + " TEXT,"
                 + IList.COL_QUANTITY + " REAL,"
-                + IList.COL_BEGIN    + " NUMERIC,"
-                + IList.COL_END      + " NUMERIC)";
+                + IList.COL_UNIT     + " TEXT,"
+                + IList.COL_BEGIN    + " INTEGER,"
+                + IList.COL_END      + " INTEGER,"
+                + IList.COL_CLOSED   + " NUMERIC)";
+
+
         db.execSQL(sql);
 
         sql = "CREATE TABLE " + IOrders.TABLE_NAME + " ("
+                + IOrders._ID                + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + IOrders.COL_DATETIME       + " NUMERIC,"
                 + IOrders.COL_INGREDIENT_ID  + " INTEGER,"
                 + IOrders.COL_USER_ID        + " INTEGER,"
