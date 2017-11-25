@@ -15,9 +15,6 @@ import net.standadev.coffeecounter.data.UserCounter;
 
 public class ChangeUserActivity extends AppCompatActivity {
 
-    // TODO Move assigning user id to the DB level
-    static private long userId = 10;
-
     private User user;
     EditText etUserName;
     CheckBox cbUserIsActive;

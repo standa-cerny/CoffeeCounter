@@ -16,7 +16,6 @@ import net.standadev.coffeecounter.data.User;
 import java.util.ArrayList;
 
 
-
 public class SelectUserActivity extends AppCompatActivity {
     GridView userGrid;
     UserGridAdapter userGridAdapter;
@@ -32,6 +31,7 @@ public class SelectUserActivity extends AppCompatActivity {
         userGrid = (GridView) findViewById(R.id.gvUsers);
         userGrid.setAdapter(userGridAdapter);
         userGrid.setOnItemClickListener(userGridAdapter);
+
     }
 
     @Override

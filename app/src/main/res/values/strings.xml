@@ -14,4 +14,11 @@
 
     <string name="statement_close">Close statement</string>
 
+    <string name="ingredient_type">Type</string>
+    <string name="ingredient_type_new">New ingredient</string>
+    <string name="ingredient_name">Name</string>
+    <string name="ingredient_price">Price</string>
+
+    <string name="menu_add_ingredient_type">Add ingredient type</string>
+    <string name="menu_change_ingredient">Change ingredient</string>
 </resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:compat="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <item android:id="@+id/menu_add_ingredient_type"
+        android:title="@string/menu_add_ingredient_type"
+        android:titleCondensed="string"
+        android:icon="@drawable/ic_menu_add_ingredient_type"
+        compat:showAsAction="never"
+        />
+
+
+
+</menu>

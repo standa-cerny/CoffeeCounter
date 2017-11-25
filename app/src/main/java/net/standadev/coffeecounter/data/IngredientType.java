@@ -1,22 +1,30 @@
 package net.standadev.coffeecounter.data;
 
+import android.content.ContentValues;
+
+import net.standadev.coffeecounter.data.db.CounterDb;
+
 /**
  * Created by Standa on 05.11.2017.
  */
 
 public class IngredientType extends BaseId{
 
-    private IngredientType ingredientType;
-
     public IngredientType(long id, String name) {
         super(id, name);
     }
 
-    public IngredientType getIngredientType() {
-        return ingredientType;
+    public ContentValues getValues(){
+        ContentValues values = new ContentValues();
+        values.put(CounterDb.ITypes.COL_NAME, this.getName());
+
+        return values;
     }
 
-    public void setIngredientType(IngredientType ingredientType) {
-        this.ingredientType = ingredientType;
+    @Override
+    public String getTableName() {
+        return CounterDb.ITypes.TABLE_NAME;
     }
+
+
 }

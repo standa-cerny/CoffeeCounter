@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 public class CounterDb {
     private CounterDb(){}
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "counter.db";
 
     public static class Users implements BaseColumns {
@@ -19,13 +19,14 @@ public class CounterDb {
     }
 
     public static class ITypes implements BaseColumns {
-        public static final String TABLE_NAME   = "i_types";
-        public static final String COL_NAME     = "name";
+        public static final String TABLE_NAME    = "i_types";
+        public static final String COL_NAME      = "name";
     }
 
     public static class IList implements BaseColumns {
         public static final String TABLE_NAME   = "i_list";
         public static final String COL_NAME     = "name";
+        public static final String COL_TYPE_ID  = "type_id";
         public static final String COL_PRICE    = "price";
         public static final String COL_CURRENCY = "currency";
         public static final String COL_QUANTITY = "quantity";

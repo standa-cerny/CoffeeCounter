@@ -34,7 +34,9 @@ public class CounterDbHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
 
         sql = "CREATE TABLE " + IList.TABLE_NAME + " ("
+                + IList._ID          + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + IList.COL_NAME     + " TEXT,"
+                + IList.COL_TYPE_ID  + " INTEGER,"
                 + IList.COL_PRICE    + " REAL,"
                 + IList.COL_CURRENCY + " TEXT,"
                 + IList.COL_QUANTITY + " REAL,"

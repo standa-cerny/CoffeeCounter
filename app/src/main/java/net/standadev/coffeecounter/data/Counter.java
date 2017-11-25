@@ -59,10 +59,10 @@ public class Counter {
 
     public void saveUser(User user) {
         if (user.getId() > 0){
-            dataProvider.updateUser(user);
+            dataProvider.update(user);
 
         } else {
-            dataProvider.insertUser(user);
+            dataProvider.insert(user);
             loadUser(user);
         }
 
@@ -70,7 +70,6 @@ public class Counter {
 
 
     public void loadUser(User user) {
-        // TODO add user to DB
         ArrayList<IngredientCounter> uic;
         uic = new ArrayList<IngredientCounter>();
 
@@ -80,6 +79,25 @@ public class Counter {
         UserCounter uc =new UserCounter(user, uic);
         userCounters.add(uc);
         mapIdUserCounters.put(user.getId(), uc);
+    }
+
+    public void saveIngredient(Ingredient ingredient){
+        // Save ingredient type
+        IngredientType ingredientType = ingredient.getIngredientType();
+        if (ingredientType.getId() > 0) {
+            dataProvider.update(ingredientType);
+        }else{
+            dataProvider.insert(ingredient.getIngredientType());
+        }
+
+        // Save ingredient
+        if (ingredient.getId() > 0) {
+            dataProvider.update(ingredient);
+        }else{
+            dataProvider.insert(ingredient);
+            reload();
+        }
+
     }
 
     public void orderIngredient(User user, Ingredient ingredient, float diff) {
@@ -119,11 +137,17 @@ public class Counter {
 
 
     private void loadTestData() {
-        Ingredient ic = new Ingredient(1, "Brasilia Santos", new IngredientType(1, "coffee"));
-        addIngredient(ic);
+        if (0 == 1) {
+            Ingredient ic = new Ingredient(1, "Brasilia Santos", new IngredientType(1, "coffee"));
+            loadIngredient(ic);
 
-        Ingredient im = new Ingredient(2, "Lidl milk", new IngredientType(2, "milk"));
-        addIngredient(im);
+            Ingredient im = new Ingredient(2, "Lidl milk", new IngredientType(2, "milk"));
+            loadIngredient(im);
+        }
+
+        for (Ingredient ingredient : dataProvider.getListOfIngredients()){
+            loadIngredient(ingredient);
+        }
 
         for (User user : dataProvider.getListOfUsers()){
             loadUser(user);
@@ -142,13 +166,13 @@ public class Counter {
             User um = new User(4, "Michal");
             loadUser(um);
 
-            orderIngredient(us, ic, 2.0f);
-            orderIngredient(us, im, 1.0f);
-            orderIngredient(uv, im, 1.0f);
+            //orderIngredient(us, ic, 2.0f);
+            //orderIngredient(us, im, 1.0f);
+            //orderIngredient(uv, im, 1.0f);
         }
     }
 
-    private void addIngredient(Ingredient ingredient){
+    private void loadIngredient(Ingredient ingredient){
         // Save index to ingredient counters
         ingredient.setCounterIndex(ingredientCounters.size());
 
