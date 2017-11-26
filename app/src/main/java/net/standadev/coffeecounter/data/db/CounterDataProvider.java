@@ -10,6 +10,7 @@ import net.standadev.coffeecounter.data.BaseId;
 import net.standadev.coffeecounter.data.Ingredient;
 import net.standadev.coffeecounter.data.IngredientOrder;
 import net.standadev.coffeecounter.data.IngredientType;
+import net.standadev.coffeecounter.data.IngredientUser;
 import net.standadev.coffeecounter.data.User;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class CounterDataProvider {
 
     }
 
-    public void insert(BaseId baseId){
+    public void insert(BaseId baseId) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         // Insert new line and return primary key
@@ -40,13 +41,13 @@ public class CounterDataProvider {
         baseId.setId(newId);
     }
 
-    public void update(BaseId baseId){
+    public void update(BaseId baseId) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 
         // Insert new line and return primary key
         String selection = BaseColumns._ID + " = ?";
-        String[] selectionArgs = { (new Long(baseId.getId())).toString() };
+        String[] selectionArgs = {(new Long(baseId.getId())).toString()};
 
         int count = db.update(
                 baseId.getTableName(),
@@ -56,7 +57,7 @@ public class CounterDataProvider {
     }
 
 
-    public ArrayList<User> getListOfUsers(){
+    public ArrayList<User> getListOfUsers() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Projection
@@ -87,7 +88,7 @@ public class CounterDataProvider {
 
         // Data processing
         ArrayList<User> result = new ArrayList<User>();
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             long id = cursor.getLong(
                     cursor.getColumnIndexOrThrow(CounterDb.Users._ID));
 
@@ -108,8 +109,7 @@ public class CounterDataProvider {
     }
 
 
-
-    public ArrayList<Ingredient> getListOfIngredients(){
+    public ArrayList<Ingredient> getListOfIngredients() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Projection
@@ -127,11 +127,10 @@ public class CounterDataProvider {
 
 // Filter results WHERE "title" = 'My Title'
         String selection = CounterDb.IList.COL_CLOSED + " = 0";
-        String[] selectionArgs = {  };
+        String[] selectionArgs = {};
 
         // Sort order
-        //String sortOrder =
-        //        CounterDb.Users._ID + " ASC";
+        String sortOrder = CounterDb.IList.COL_TYPE_ID + " ASC";
 
         // Query
         Cursor cursor = db.query(
@@ -141,11 +140,11 @@ public class CounterDataProvider {
                 null, //selectionArgs,                         // The values for the WHERE clause
                 null,                                  // don't group the rows
                 null,                                  // don't filter by row groups
-                null                                   // The sort order
+                sortOrder                                   // The sort order
         );
         // Data processing
         ArrayList<Ingredient> result = new ArrayList<Ingredient>();
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             // Load basic ingredient data
             long id = cursor.getLong(
                     cursor.getColumnIndexOrThrow(CounterDb.IList._ID));
@@ -184,7 +183,7 @@ public class CounterDataProvider {
         return result;
     }
 
-    public ArrayList<IngredientOrder> getListOfIngredientOrders(Ingredient ingredient){
+    public ArrayList<IngredientOrder> getListOfIngredientOrders(Ingredient ingredient) {
 
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -198,7 +197,7 @@ public class CounterDataProvider {
 
         // Filter results WHERE "title" = 'My Title'
         String selection = CounterDb.IOrders.COL_INGREDIENT_ID + " = ?";
-        String[] selectionArgs = { (new Long(ingredient.getId())).toString() };
+        String[] selectionArgs = {(new Long(ingredient.getId())).toString()};
 
         // Query
         Cursor cursor = db.query(
@@ -212,7 +211,7 @@ public class CounterDataProvider {
         );
 
         ArrayList<IngredientOrder> result = new ArrayList<IngredientOrder>();
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             // Load basic ingredient data
             long userId = cursor.getLong(
                     cursor.getColumnIndexOrThrow(CounterDb.IOrders.COL_USER_ID));
@@ -231,7 +230,82 @@ public class CounterDataProvider {
         return result;
     }
 
-    private IngredientType getIngredientType(long id){
+    public ArrayList<IngredientUser> getListOfNotCleared(User user) {
+
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        // Projection
+        String[] projection = {
+                CounterDb.IUsers.COL_INGREDIENT_ID,
+                CounterDb.IUsers.COL_USER_ID,
+                CounterDb.IUsers.COL_QUANTITY,
+                CounterDb.IUsers.COL_PRICE,
+        };
+
+        // Filter
+        String selection = CounterDb.IUsers.COL_USER_ID + " = ? and "
+                + CounterDb.IUsers.COL_CLEARED + " = ?";
+        String[] selectionArgs = { Long.valueOf(user.getId()).toString(), "0"};
+
+        // Query
+        Cursor cursor = db.query(
+                CounterDb.IUsers.TABLE_NAME,          // The table to query
+                projection,                            // The columns to return
+                selection,                             // The columns for the WHERE clause
+                selectionArgs,                         // The values for the WHERE clause
+                null,                                  // don't group the rows
+                null,                                  // don't filter by row groups
+                null                                   // The sort order
+        );
+
+        ArrayList<IngredientUser> result = new ArrayList<IngredientUser>();
+        while (cursor.moveToNext()) {
+            // Load basic ingredient data
+            long userId = cursor.getLong(
+                    cursor.getColumnIndexOrThrow(CounterDb.IUsers.COL_USER_ID));
+
+            long ingredientId = cursor.getLong(
+                    cursor.getColumnIndexOrThrow(CounterDb.IUsers.COL_INGREDIENT_ID));
+
+            float quantity = cursor.getFloat(
+                    cursor.getColumnIndexOrThrow(CounterDb.IUsers.COL_QUANTITY));
+
+            float price = cursor.getFloat(
+                    cursor.getColumnIndexOrThrow(CounterDb.IUsers.COL_PRICE));
+
+
+            IngredientUser iu = new IngredientUser(ingredientId, userId);
+            iu.setQuantity(quantity);
+            iu.setPrice(price);
+            result.add(iu);
+        }
+        cursor.close();
+        return result;
+    }
+
+    public void clearDebt(User user) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+
+        // Insert new line and return primary key
+        String selection = CounterDb.IUsers.COL_USER_ID + " = ? and "
+                + CounterDb.IUsers.COL_CLEARED + " = ?";
+        String[] selectionArgs = { Long.valueOf(user.getId()).toString(), "0"};
+
+        ContentValues values = new ContentValues();
+        values.put(CounterDb.IUsers.COL_CLEARED, true);
+
+        int count = db.update(
+                CounterDb.IUsers.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+
+
+
+    private IngredientType getIngredientType(long id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Projection
@@ -241,7 +315,7 @@ public class CounterDataProvider {
 
 // Filter results WHERE "title" = 'My Title'
         String selection = CounterDb.ITypes._ID + " = ?";
-        String[] selectionArgs = { (new Long(id)).toString() };
+        String[] selectionArgs = {(new Long(id)).toString()};
 
         // Sort order
         //String sortOrder =
@@ -259,7 +333,7 @@ public class CounterDataProvider {
         );
         // Data processing
         IngredientType result;
-        if(cursor.moveToNext()) {
+        if (cursor.moveToNext()) {
             String name = cursor.getString(
                     cursor.getColumnIndexOrThrow(CounterDb.ITypes.COL_NAME));
             result = new IngredientType(id, name);

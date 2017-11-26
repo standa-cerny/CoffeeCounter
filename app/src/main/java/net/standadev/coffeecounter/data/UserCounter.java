@@ -32,4 +32,10 @@ public class UserCounter {
     public float getDebt() {
         return debt;
     }
+    public void addDebt(float diff) {
+        debt += diff;
+    }
+    public void clearDebt(){
+        debt = 0.0f;
+    }
 }

@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -17,7 +19,10 @@ import net.standadev.coffeecounter.data.UserCounter;
 
 public class SelectIngredientActivity extends AppCompatActivity {
 
+    private UserCounter userCounter;
     private User user;
+    private Button btnClearDebt;
+    private TextView tvUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +31,19 @@ public class SelectIngredientActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         long user_id = intent.getLongExtra(Counter.USER_ID, 0);
-        UserCounter uc = Counter.getInstance().getUserCounterFromId(user_id);
-        user = uc.getUser();
+        userCounter = Counter.getInstance().getUserCounterFromId(user_id);
+        user = userCounter.getUser();
 
-        // User text
+        // Header
+        tvUserName = (TextView) findViewById(R.id.tvUserName);
+        btnClearDebt = (Button)findViewById(R.id.btnClearDebt);
         loadUser();
 
         // Ingredients grid view
         Counter counter = Counter.getInstance();
         GridView gvIngredients;
         IngredientUserGridAdapter ingredientGridAdapter;
-        ingredientGridAdapter = new IngredientUserGridAdapter(SelectIngredientActivity.this, uc.getIngredientCounters(), user);
+        ingredientGridAdapter = new IngredientUserGridAdapter(SelectIngredientActivity.this, userCounter);
 
         gvIngredients = (GridView) findViewById(R.id.gvIngredients);
         gvIngredients.setAdapter(ingredientGridAdapter);
@@ -71,12 +78,26 @@ public class SelectIngredientActivity extends AppCompatActivity {
         }
     }
 
+    public void onClearDebtButtonClick(View view) {
+        Counter counter = Counter.getInstance();
+        counter.clearDebt(userCounter);
+        loadUser();
+    }
+
 
     private void loadUser(){
         String message = "user id: " + user.getId() + " " + user.getName();
         // Capture the layout's TextView and set the string as its text
-        TextView textView = (TextView) findViewById(R.id.tvQuantity);
-        textView.setText(message);
+        tvUserName.setText(message);
+
+        if (userCounter.getDebt() > 0.0f ) {
+            message = "Pay debt: " + userCounter.getDebt();
+            btnClearDebt.setText(message);
+        }else{
+            btnClearDebt.setVisibility(View.INVISIBLE);
+        }
+
+
     }
 
 }

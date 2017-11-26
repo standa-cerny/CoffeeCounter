@@ -38,7 +38,7 @@ public class UserStatementGridAdapter extends UserBaseAdapter implements Adapter
         }
 
         TextView tvUserName = convertView.findViewById(R.id.tvUserName);
-        TextView tvQuantity = convertView.findViewById(R.id.tvQuantity);
+        TextView tvQuantity = convertView.findViewById(R.id.tvUserName);
         TextView tvPrice = convertView.findViewById(R.id.tvPrice);
 
 

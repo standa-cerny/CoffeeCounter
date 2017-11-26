@@ -106,7 +106,6 @@ public class Counter {
     }
 
     public void loadIngredientOrder(IngredientOrder order) {
-        // TODO Save order transaction to DB
         UserCounter uc = getUserCounterFromId(order.getUserId());
         IngredientCounter ic = getIngredientCounterFromId(order.getIngredientId());
 
@@ -114,15 +113,49 @@ public class Counter {
         addQuantity(uc.getIngredientCounters(), ic.getIngredient(), order.getQuantity());
     }
 
-    public void closeStatement(Ingredient ingredient) {
-        // Clear total counter
-        ingredientCounters.get(ingredient.getCounterIndex()).clear();
+    public void loadUserDebt(IngredientUser ingredientUser) {
+        UserCounter uc = getUserCounterFromId(ingredientUser.getUserId());
+        uc.addDebt(ingredientUser.getPrice());
+    }
 
-        // Clear user counters
+
+    public void closeStatement(Ingredient ingredient) {
+        // Get counter instance
+        Counter counter = Counter.getInstance();
+
+        // Clear total counter
+        //ingredientCounters.get(ingredient.getCounterIndex()).clear();
+
+
+        // Save summarized user orders of ingredients
         int index = ingredient.getCounterIndex();
+        IngredientCounter totalCounter = ingredientCounters.get(ingredient.getCounterIndex());
         for (UserCounter uc : userCounters) {
-            uc.getIngredientCounters().get(index).clear();
+            IngredientCounter userCounter = uc.getIngredientCounters().get(index);
+            IngredientUser iu = new IngredientUser(totalCounter.getIngredient().getId(), uc.getUser().getId());
+
+            float userQuantity = userCounter.getQuantity();
+            iu.setQuantity( userQuantity );
+            iu.setPrice( totalCounter.getUnitPrice() * userQuantity );
+
+            dataProvider.insert(iu);
         }
+
+        // Close current ingredient
+        ingredient.setClosed(true);
+        dataProvider.update(ingredient);
+
+        // Prepare new ingredient
+        // All data are reloaded since the new ingredient is added
+        // No additional reload is needed
+        Ingredient newIngredient = new Ingredient(0, "", ingredient.getIngredientType());
+        counter.saveIngredient(newIngredient);
+    }
+
+    public void clearDebt(UserCounter userCounter){
+        userCounter.clearDebt();
+        dataProvider.clearDebt(userCounter.getUser());
+
     }
 
     public ArrayList<UserCounter> getListOfUserCounter() {
@@ -165,6 +198,12 @@ public class Counter {
         for (IngredientCounter ic : getListOfIngredientCounter()) {
             for (IngredientOrder io : dataProvider.getListOfIngredientOrders(ic.getIngredient())) {
                 loadIngredientOrder(io);
+            }
+        }
+
+        for (UserCounter uc : getListOfUserCounter()){
+            for (IngredientUser iu : dataProvider.getListOfNotCleared(uc.getUser())){
+                loadUserDebt(iu);
             }
         }
 

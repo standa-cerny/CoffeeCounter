@@ -2,11 +2,9 @@ package net.standadev.coffeecounter.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -34,11 +32,13 @@ public class UserGridAdapter extends UserBaseAdapter implements AdapterView.OnIt
             convertView = inflater.inflate(R.layout.item_user, null);
         }
 
-        TextView userNameTextView = (TextView) convertView.findViewById(R.id.tvQuantity);
+        TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
+        TextView tvUserDebt = (TextView) convertView.findViewById(R.id.tvUserDebt);
 
         // UserCounter userC = new User(0, "name");
         UserCounter uc = userCounters.get(position);
-        userNameTextView.setText("Name: " + uc.getUser().getName());
+        tvUserName.setText("Name: " + uc.getUser().getName());
+        tvUserDebt.setText("Debt: " + uc.getDebt());
 
         // Ingredients grid view
         User user = uc.getUser();
@@ -48,7 +48,7 @@ public class UserGridAdapter extends UserBaseAdapter implements AdapterView.OnIt
 
 
         IngredientUserGridAdapter ingredientGridAdapter;
-        ingredientGridAdapter = new IngredientUserGridAdapter(context, uc.getIngredientCounters(), user);
+        ingredientGridAdapter = new IngredientUserGridAdapter(context, uc);
 
 
         gvIngredients = (GridView) convertView.findViewById(R.id.gvIngredients);

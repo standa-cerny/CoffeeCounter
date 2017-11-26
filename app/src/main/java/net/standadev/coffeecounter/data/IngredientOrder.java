@@ -17,7 +17,7 @@ public class IngredientOrder extends BaseId {
     private long userId;
     private float quantity;
 
-    public IngredientOrder(long ingredientId, long userId,  Float quantity) {
+    public IngredientOrder(long ingredientId, long userId,  float quantity) {
         super(0, "");
 
 

@@ -4,15 +4,25 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvQuantity"
+        android:id="@+id/tvUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+
+    <TextView
+        android:id="@+id/tvUserDebt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
     <GridView
         android:id="@+id/gvIngredients"
         android:numColumns="2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" >
+
+
+    </GridView>
 </LinearLayout>

@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import net.standadev.coffeecounter.R;
-import net.standadev.coffeecounter.adapters.IngredientUserGridAdapter;
 import net.standadev.coffeecounter.adapters.UserStatementGridAdapter;
 import net.standadev.coffeecounter.data.Counter;
 import net.standadev.coffeecounter.data.Ingredient;
@@ -90,6 +88,7 @@ public class StatementActivity extends AppCompatActivity {
 
     public void onCloseStatementClick(View view) {
         Counter.getInstance().closeStatement(ingredientCounter.getIngredient());
+        this.finish();
     }
 
     private void loadHeader(){
@@ -104,7 +103,7 @@ public class StatementActivity extends AppCompatActivity {
         TextView tvTotalPrice = (TextView) findViewById(R.id.tvTotalPrice);
         tvTotalPrice.setText("Total price: " + ingredientCounter.getIngredient().getPrice());
 
-        TextView tvQuantity = (TextView) findViewById(R.id.tvQuantity);
+        TextView tvQuantity = (TextView) findViewById(R.id.tvUserName);
         tvQuantity.setText("Quantity: " + ingredientCounter.getQuantity());
 
         TextView tvUnitPrice = (TextView) findViewById(R.id.tvUnitPrice);

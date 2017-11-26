@@ -8,13 +8,10 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import net.standadev.coffeecounter.R;
-import net.standadev.coffeecounter.activities.SelectIngredientActivity;
 import net.standadev.coffeecounter.activities.StatementActivity;
 import net.standadev.coffeecounter.data.Counter;
 import net.standadev.coffeecounter.data.Ingredient;
 import net.standadev.coffeecounter.data.IngredientCounter;
-import net.standadev.coffeecounter.data.User;
-import net.standadev.coffeecounter.data.UserCounter;
 
 import java.util.ArrayList;
 
@@ -39,7 +36,7 @@ public class IngredientTotalGridAdapter extends IngredientBaseAdapter implements
 
         TextView tvIngredientName = convertView.findViewById(R.id.tvIngredientName);
         TextView tvIngredientTypeName = convertView.findViewById(R.id.tvIngredientTypeName);
-        TextView tvQuantity = convertView.findViewById(R.id.tvQuantity);
+        TextView tvQuantity = convertView.findViewById(R.id.tvUserName);
 
         //UserCounter userC = new User(0, "name");
         IngredientCounter ic = (IngredientCounter) getItem(position);
