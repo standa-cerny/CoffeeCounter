@@ -30,6 +30,10 @@ public class IngredientOrder extends BaseId {
         this(ingredient.getId(), user.getId(), quantity);
     }
 
+    public IngredientOrder(Ingredient ingredient, User user) {
+        this(ingredient.getId(), user.getId(), 1.0f);
+    }
+
     public ContentValues getValues(){
         ContentValues values = new ContentValues();
 

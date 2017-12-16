@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,14 +16,14 @@ import net.standadev.coffeecounter.adapters.UserStatementGridAdapter;
 import net.standadev.coffeecounter.data.Counter;
 import net.standadev.coffeecounter.data.Ingredient;
 import net.standadev.coffeecounter.data.IngredientCounter;
-import net.standadev.coffeecounter.data.UserCounter;
-
-import java.util.ArrayList;
+import net.standadev.coffeecounter.data.Statement;
 
 public class StatementActivity extends AppCompatActivity {
 
-    private IngredientCounter ingredientCounter;
-    private ArrayList<UserCounter> userCounters;
+    //private IngredientCounter ingredientCounter;
+    //private ArrayList<UserCounter> userCounters;
+    long ingredientId;
+    private Statement statement;
     private UserStatementGridAdapter userStatementGridAdapter;
 
     @Override
@@ -34,9 +35,10 @@ public class StatementActivity extends AppCompatActivity {
 
         // Prepare ingredient data
         Intent intent = getIntent();
-        long ingredient_id = intent.getLongExtra(Counter.INGREDIENT_ID, 0);
-        ingredientCounter = counter.getIngredientCounterFromId(ingredient_id);
-        userCounters = counter.getListOfUserCounter();
+        ingredientId = intent.getLongExtra(Counter.INGREDIENT_ID, 0);
+        //ingredientCounter = counter.getIngredientCounterFromId(ingredient_id);
+        //userCounters = counter.getListOfUserCounter();
+        statement = counter.getStatement(ingredientId);
 
 
         // Load statement header
@@ -45,11 +47,15 @@ public class StatementActivity extends AppCompatActivity {
 
         // Build list view of statement items
         ListView lvUserStatements;
-        userStatementGridAdapter = new UserStatementGridAdapter(StatementActivity.this, userCounters, ingredientCounter);
+        userStatementGridAdapter = new UserStatementGridAdapter(StatementActivity.this, statement.getItems());
 
         lvUserStatements = (ListView) findViewById(R.id.lvUserStatement);
         lvUserStatements.setAdapter(userStatementGridAdapter);
 
+        Button btnCloseStatement = (Button) findViewById(R.id.btnCloseStatement);
+        if (statement.isClosed()){
+            btnCloseStatement.setVisibility(View.GONE);
+        }
     }
 
 
@@ -65,7 +71,9 @@ public class StatementActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_statement, menu);//Menu Resource, Menu
+        if (! statement.isClosed()) {
+            getMenuInflater().inflate(R.menu.menu_statement, menu);
+        }
         return true;
     }
 
@@ -76,7 +84,7 @@ public class StatementActivity extends AppCompatActivity {
             case R.id.menu_change_ingredient:
 
                 intent = new Intent(context, ChangeIngredientActivity.class);
-                intent.putExtra(Counter.INGREDIENT_ID, ingredientCounter.getIngredient().getId());
+                intent.putExtra(Counter.INGREDIENT_ID, ingredientId);
                 context.startActivity(intent);
                 return true;
 
@@ -87,12 +95,13 @@ public class StatementActivity extends AppCompatActivity {
 
 
     public void onCloseStatementClick(View view) {
-        Counter.getInstance().closeStatement(ingredientCounter.getIngredient());
+        Counter.getInstance().closeStatement(statement);
         this.finish();
     }
 
     private void loadHeader(){
-        Ingredient i = ingredientCounter.getIngredient();
+        IngredientCounter ic = statement.getIngredientCounter();
+        Ingredient i = ic.getIngredient();
 
         TextView tvIngredientTypeName = (TextView) findViewById(R.id.tvIngredientTypeName);
         tvIngredientTypeName.setText(i.getIngredientType().getName());
@@ -101,15 +110,15 @@ public class StatementActivity extends AppCompatActivity {
         tvIngredientName.setText(i.getName());
 
         TextView tvTotalPrice = (TextView) findViewById(R.id.tvTotalPrice);
-        tvTotalPrice.setText("Total price: " + ingredientCounter.getIngredient().getPrice());
+        tvTotalPrice.setText("Total price: " + ic.getIngredient().getPrice());
 
         TextView tvQuantity = (TextView) findViewById(R.id.tvUserName);
-        tvQuantity.setText("Quantity: " + ingredientCounter.getQuantity());
+        tvQuantity.setText("Quantity: " + ic.getQuantity());
 
         TextView tvUnitPrice = (TextView) findViewById(R.id.tvUnitPrice);
-        tvUnitPrice.setText("Unit price: " + ingredientCounter.getUnitPrice());
+        tvUnitPrice.setText("Unit price: " + ic.getUnitPrice());
 
         TextView tvBegin = (TextView) findViewById(R.id.tvBegin);
-        tvBegin.setText("Begin: " + ingredientCounter.getIngredient().getBegin());
+        tvBegin.setText("Begin: " + ic.getIngredient().getBegin());
     }
 }

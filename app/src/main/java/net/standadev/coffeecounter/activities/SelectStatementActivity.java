@@ -53,6 +53,12 @@ public class SelectStatementActivity extends AppCompatActivity {
         Context context = SelectStatementActivity.this;
         Intent intent;
         switch (item.getItemId()) {
+
+            case R.id.menu_history:
+                intent = new Intent(context, ListClosedStatementsActivity.class);
+                context.startActivity(intent);
+                return true;
+
             case R.id.menu_add_ingredient_type:
 
                 intent = new Intent(context, ChangeIngredientActivity.class);

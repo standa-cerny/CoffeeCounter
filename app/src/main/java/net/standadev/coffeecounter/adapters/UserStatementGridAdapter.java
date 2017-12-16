@@ -1,17 +1,19 @@
 package net.standadev.coffeecounter.adapters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import net.standadev.coffeecounter.R;
 import net.standadev.coffeecounter.data.Counter;
-import net.standadev.coffeecounter.data.Ingredient;
 import net.standadev.coffeecounter.data.IngredientCounter;
+import net.standadev.coffeecounter.data.IngredientUser;
+import net.standadev.coffeecounter.data.StatementItem;
 import net.standadev.coffeecounter.data.User;
-import net.standadev.coffeecounter.data.UserCounter;
 
 import java.util.ArrayList;
 
@@ -20,14 +22,34 @@ import java.util.ArrayList;
  * Created by ces9cj on 6.11.2017.
  */
 
-public class UserStatementGridAdapter extends UserBaseAdapter implements AdapterView.OnItemClickListener {
+public class UserStatementGridAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
 
-    private IngredientCounter ingredientCounterTotal;
+    protected Context context;
+    protected ArrayList<StatementItem> items;
+    protected static LayoutInflater inflater = null;
 
-    public UserStatementGridAdapter(Context context, ArrayList<UserCounter> userCounters, IngredientCounter ingredientCounterTotal) {
-        super(context, userCounters);
-        this.ingredientCounterTotal = ingredientCounterTotal;
+    public UserStatementGridAdapter(Context context, ArrayList<StatementItem> items) {
+        this.context = context;
+        this.items = items;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
+    @Override
+    public int getCount() {
+        return items.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return items.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -38,21 +60,18 @@ public class UserStatementGridAdapter extends UserBaseAdapter implements Adapter
         }
 
         TextView tvUserName = convertView.findViewById(R.id.tvUserName);
-        TextView tvQuantity = convertView.findViewById(R.id.tvUserName);
+        TextView tvQuantity = convertView.findViewById(R.id.tvQuantity);
         TextView tvPrice = convertView.findViewById(R.id.tvPrice);
 
-
         //Set User name
-        UserCounter uc = (UserCounter) getItem(position);
-        User u = uc.getUser();
+        StatementItem item = (StatementItem) getItem(position);
+        User u = item.getUser();
         tvUserName.setText(u.getName());
 
-        Ingredient i = ingredientCounterTotal.getIngredient();
-
-        IngredientCounter ingredientCounterUser = uc.getIngredientCounters().get(i.getCounterIndex());
-
-        tvQuantity.setText("Quantity: " + ingredientCounterUser.getQuantity() );
-        tvPrice.setText("Price: " + ingredientCounterUser.getQuantity() * ingredientCounterTotal.getUnitPrice() );
+        // Set quantity and price
+        IngredientUser iu = item.getIngredientUser();
+        tvQuantity.setText("Quantity: " + iu.getQuantity() );
+        tvPrice.setText("Price: " + iu.getPrice() );
 
         return convertView;
     }

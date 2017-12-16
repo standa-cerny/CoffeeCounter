@@ -4,6 +4,7 @@
 
     <string name="menu_add_user">Add user</string>
     <string name="menu_ingredients">Ingredients</string>
+    <string name="menu_history">History</string>
 
     <string name="menu_change_user">Change user</string>
 

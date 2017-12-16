@@ -54,7 +54,28 @@ public class Counter {
         ingredientCounters.clear();
         userCounters.clear();
 
-        loadTestData();
+        // Load ingredients from DB
+        for (Ingredient ingredient : dataProvider.getListOfIngredients(false)) {
+            loadIngredient(ingredient);
+        }
+
+        // Load users from DB
+        for (User user : dataProvider.getListOfUsers()) {
+            loadUser(user);
+        }
+
+        // Load ingredient orders from DB
+        for (IngredientCounter ic : getListOfIngredientCounter()) {
+            for (IngredientOrder io : dataProvider.getListOfIngredientOrders(ic.getIngredient())) {
+                loadIngredientOrder(io);
+            }
+        }
+
+        for (UserCounter uc : getListOfUserCounter()){
+            for (IngredientUser iu : dataProvider.getListOfStatementItems(uc.getUser(), true)){
+                loadUserDebt(iu);
+            }
+        }
     }
 
     public void saveUser(User user) {
@@ -118,8 +139,53 @@ public class Counter {
         uc.addDebt(ingredientUser.getPrice());
     }
 
+    public void clearDebt(UserCounter userCounter){
+        userCounter.clearDebt();
+        dataProvider.clearDebt(userCounter.getUser());
+    }
 
-    public void closeStatement(Ingredient ingredient) {
+    public Statement getStatement(long ingredientId){
+        Statement statement;
+        IngredientCounter totalCounter = getIngredientCounterFromId(ingredientId);
+
+        if (totalCounter != null) {
+            // Load current statement
+            statement = new Statement(totalCounter, false);
+            int index = totalCounter.getIngredient().getCounterIndex();
+
+            for (UserCounter uc : getListOfUserCounter()) {
+                IngredientCounter userCounter = uc.getIngredientCounters().get(index);
+
+                IngredientUser iu = new IngredientUser(totalCounter.getIngredient().getId(), uc.getUser().getId());
+
+                float userQuantity = userCounter.getQuantity();
+                iu.setQuantity( userQuantity );
+                iu.setPrice( totalCounter.getUnitPrice() * userQuantity );
+
+                statement.addItem(new StatementItem(uc.getUser(), iu));
+            }
+
+            // Ingredient i = ingredientCounterTotal.getIngredient();
+
+            // IngredientCounter ingredientCounterUser = uc.getIngredientCounters().get();
+            //ingredientCounterUser.getQuantity()
+            // ingredientCounterUser.getQuantity() * ingredientCounterTotal.getUnitPrice()
+        }else{
+            // Load already closed statement from DB
+            Ingredient i = dataProvider.getIngredient(ingredientId);
+            statement = new Statement( new IngredientCounter(i), true );
+
+            for ( IngredientUser iu : dataProvider.getListOfStatementItems(i.getId())){
+                User user = getUserCounterFromId(iu.getUserId()).getUser();
+                statement.addItem(new StatementItem(user, iu));
+            }
+
+        }
+
+        return statement;
+    }
+
+    public void closeStatement(Statement statement) {
         // Get counter instance
         Counter counter = Counter.getInstance();
 
@@ -128,35 +194,28 @@ public class Counter {
 
 
         // Save summarized user orders of ingredients
-        int index = ingredient.getCounterIndex();
-        IngredientCounter totalCounter = ingredientCounters.get(ingredient.getCounterIndex());
-        for (UserCounter uc : userCounters) {
-            IngredientCounter userCounter = uc.getIngredientCounters().get(index);
-            IngredientUser iu = new IngredientUser(totalCounter.getIngredient().getId(), uc.getUser().getId());
-
-            float userQuantity = userCounter.getQuantity();
-            iu.setQuantity( userQuantity );
-            iu.setPrice( totalCounter.getUnitPrice() * userQuantity );
-
-            dataProvider.insert(iu);
+        for (StatementItem item : statement.getItems()) {
+            dataProvider.insert(item.getIngredientUser());
         }
 
         // Close current ingredient
+        Ingredient ingredient = statement.getIngredientCounter().getIngredient();
         ingredient.setClosed(true);
         dataProvider.update(ingredient);
+
+        // Remove closed counter from map structure of current ingredients
+        mapIdIngredientCounters.remove(ingredient.getId());
 
         // Prepare new ingredient
         // All data are reloaded since the new ingredient is added
         // No additional reload is needed
         Ingredient newIngredient = new Ingredient(0, "", ingredient.getIngredientType());
         counter.saveIngredient(newIngredient);
-    }
 
-    public void clearDebt(UserCounter userCounter){
-        userCounter.clearDebt();
-        dataProvider.clearDebt(userCounter.getUser());
 
     }
+
+
 
     public ArrayList<UserCounter> getListOfUserCounter() {
         return userCounters;
@@ -164,6 +223,18 @@ public class Counter {
 
     public ArrayList<IngredientCounter> getListOfIngredientCounter() {
         return ingredientCounters;
+    }
+
+    public ArrayList<IngredientCounter> getListOfClosedIngredientCounter() {
+
+        ArrayList<IngredientCounter> list = new ArrayList<IngredientCounter>();
+
+        for (Ingredient ingredient : dataProvider.getListOfIngredients(true)) {
+            IngredientCounter ic = new IngredientCounter(ingredient, 0);
+            list.add(ic);
+        }
+
+        return list;
     }
 
     public UserCounter getUserCounterFromId(long id) {
@@ -175,56 +246,6 @@ public class Counter {
     }
 
 
-    private void loadTestData() {
-        if (0 == 1) {
-            Ingredient ic = new Ingredient(1, "Brasilia Santos", new IngredientType(1, "coffee"));
-            loadIngredient(ic);
-
-            Ingredient im = new Ingredient(2, "Lidl milk", new IngredientType(2, "milk"));
-            loadIngredient(im);
-        }
-
-        // Load ingredients from DB
-        for (Ingredient ingredient : dataProvider.getListOfIngredients()) {
-            loadIngredient(ingredient);
-        }
-
-        // Load users from DB
-        for (User user : dataProvider.getListOfUsers()) {
-            loadUser(user);
-        }
-
-        // Load ingredient orders from DB
-        for (IngredientCounter ic : getListOfIngredientCounter()) {
-            for (IngredientOrder io : dataProvider.getListOfIngredientOrders(ic.getIngredient())) {
-                loadIngredientOrder(io);
-            }
-        }
-
-        for (UserCounter uc : getListOfUserCounter()){
-            for (IngredientUser iu : dataProvider.getListOfNotCleared(uc.getUser())){
-                loadUserDebt(iu);
-            }
-        }
-
-        if (0 == 1) {
-            User us = new User(1, "Standa");
-            loadUser(us);
-
-            User uv = new User(2, "Vlaďa");
-            loadUser(uv);
-
-            User ur = new User(3, "Robert");
-            loadUser(ur);
-
-            User um = new User(4, "Michal");
-            loadUser(um);
-
-            //saveIngredientOrder(us, ic, 2.0f);
-            //saveIngredientOrder(us, im, 1.0f);
-            //saveIngredientOrder(uv, im, 1.0f);
-        }
-    }
 
     private void loadIngredient(Ingredient ingredient) {
         // Save index to ingredient counters

@@ -42,4 +42,5 @@ public class IngredientCounter {
         }
         return 0.0f;
     }
+
 }

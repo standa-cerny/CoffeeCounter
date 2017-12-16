@@ -4,6 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <item android:id="@+id/menu_history"
+        android:title="@string/menu_history"
+        android:titleCondensed="string"
+        android:icon="@drawable/ic_menu_history"
+        compat:showAsAction="always"
+        />
+
     <item android:id="@+id/menu_add_ingredient_type"
         android:title="@string/menu_add_ingredient_type"
         android:titleCondensed="string"

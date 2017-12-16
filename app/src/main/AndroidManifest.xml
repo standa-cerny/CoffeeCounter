@@ -22,7 +22,8 @@
         <activity android:name=".activities.ChangeUserActivity" />
         <activity android:name=".activities.SelectStatementActivity" />
         <activity android:name=".activities.StatementActivity" />
-        <activity android:name=".activities.ChangeIngredientActivity"></activity>
+        <activity android:name=".activities.ChangeIngredientActivity" />
+        <activity android:name=".activities.ListClosedStatementsActivity"></activity>
     </application>
 
 </manifest>

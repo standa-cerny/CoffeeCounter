@@ -108,8 +108,18 @@ public class CounterDataProvider {
         return result;
     }
 
+    public ArrayList<Ingredient> getListOfIngredients(boolean isClosed) {
+        return getListOfIngredients(-1, isClosed);
+    }
 
-    public ArrayList<Ingredient> getListOfIngredients() {
+    public Ingredient getIngredient(long ingredientId){
+        ArrayList<Ingredient> list;
+        list = getListOfIngredients(ingredientId, true);
+
+        return list.get(0);
+    }
+
+    private ArrayList<Ingredient> getListOfIngredients(long ingredientId, boolean isClosed) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Projection
@@ -126,8 +136,16 @@ public class CounterDataProvider {
         };
 
 // Filter results WHERE "title" = 'My Title'
-        String selection = CounterDb.IList.COL_CLOSED + " = 0";
-        String[] selectionArgs = {};
+        String selection = CounterDb.IList.COL_CLOSED + " = ?";
+
+        if (ingredientId >= 0) {
+            selection += " and " + CounterDb.IList._ID + " = ?";
+        }else{
+            selection += " and " + CounterDb.IList._ID + " > ?";
+        }
+
+        String[] selectionArgs = {getDbBoolean(isClosed), Long.valueOf(ingredientId).toString()};
+
 
         // Sort order
         String sortOrder = CounterDb.IList.COL_TYPE_ID + " ASC";
@@ -137,7 +155,7 @@ public class CounterDataProvider {
                 CounterDb.IList.TABLE_NAME,            // The table to query
                 projection,                            // The columns to return
                 selection,                             // The columns for the WHERE clause
-                null, //selectionArgs,                         // The values for the WHERE clause
+                selectionArgs,                         // The values for the WHERE clause
                 null,                                  // don't group the rows
                 null,                                  // don't filter by row groups
                 sortOrder                                   // The sort order
@@ -230,7 +248,15 @@ public class CounterDataProvider {
         return result;
     }
 
-    public ArrayList<IngredientUser> getListOfNotCleared(User user) {
+    public ArrayList<IngredientUser> getListOfStatementItems(User user, boolean onlyNotCleared) {
+        return getListOfStatementItems(CounterDb.IUsers.COL_USER_ID, user.getId(), onlyNotCleared);
+    }
+
+    public ArrayList<IngredientUser> getListOfStatementItems(Long ingredientId) {
+        return getListOfStatementItems(CounterDb.IUsers.COL_INGREDIENT_ID, ingredientId, false);
+    }
+
+    private ArrayList<IngredientUser> getListOfStatementItems(String keyColumnName, long keyColumnId, boolean onlyNotCleared) {
 
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -244,9 +270,12 @@ public class CounterDataProvider {
         };
 
         // Filter
-        String selection = CounterDb.IUsers.COL_USER_ID + " = ? and "
-                + CounterDb.IUsers.COL_CLEARED + " = ?";
-        String[] selectionArgs = { Long.valueOf(user.getId()).toString(), "0"};
+        String selection =  keyColumnName + " = ? ";
+
+        if (onlyNotCleared){
+            selection += " and " + CounterDb.IUsers.COL_CLEARED + " = 0";
+        }
+        String[] selectionArgs = { Long.valueOf(keyColumnId).toString()};
 
         // Query
         Cursor cursor = db.query(
@@ -344,6 +373,14 @@ public class CounterDataProvider {
         cursor.close();
 
         return result;
+    }
+
+
+    private String getDbBoolean(boolean bool){
+        if (bool){
+            return "1";
+        }
+        return "0";
     }
 
 
