@@ -15,7 +15,6 @@ public class Ingredient extends BaseId{
     private String description;
 
     private float price;
-    private String currency;
     private float quantity;
     private String unit;
 
@@ -31,7 +30,6 @@ public class Ingredient extends BaseId{
         this.ingredientType = ingredientType;
 
         setPrice(0.0f);
-        setCurrency("CZK");
 
         setQuantity(0.0f);
         setUnit("Kg");
@@ -47,7 +45,6 @@ public class Ingredient extends BaseId{
         values.put(CounterDb.IList.COL_PRICE, this.getPrice());
 
         values.put(CounterDb.IList.COL_PRICE, this.getPrice());
-        values.put(CounterDb.IList.COL_CURRENCY, this.getCurrency());
         values.put(CounterDb.IList.COL_QUANTITY, this.getQuantity());
         values.put(CounterDb.IList.COL_UNIT, this.getUnit());
         values.put(CounterDb.IList.COL_BEGIN, CounterDb.getDateTime(this.getBegin()));
@@ -80,14 +77,6 @@ public class Ingredient extends BaseId{
 
     public void setPrice(float price) {
         this.price = price;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public float getQuantity() {

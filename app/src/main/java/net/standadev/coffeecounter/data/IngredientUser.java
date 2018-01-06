@@ -66,7 +66,7 @@ public class IngredientUser extends BaseId {
     }
 
     public void setPrice(float price) {
-        this.price = price;
+        this.price = (float) Math.ceil(price);
     }
 
     public boolean isCleared() {

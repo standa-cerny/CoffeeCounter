@@ -14,6 +14,8 @@ import net.standadev.coffeecounter.data.Ingredient;
 import net.standadev.coffeecounter.data.IngredientCounter;
 import net.standadev.coffeecounter.data.IngredientType;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
 
 public class ChangeIngredientActivity extends AppCompatActivity {
@@ -46,8 +48,9 @@ public class ChangeIngredientActivity extends AppCompatActivity {
         btnUnlock = (ImageButton) findViewById(R.id.btnUnlock);
 
         // Initialize screen objects
+        Counter counter = Counter.getInstance();
         if (ingredient_id > 0) {
-            IngredientCounter ic = Counter.getInstance().getIngredientCounterFromId(ingredient_id);
+            IngredientCounter ic = counter.getIngredientCounterFromId(ingredient_id);
             ingredient = ic.getIngredient();
 
 
@@ -56,32 +59,46 @@ public class ChangeIngredientActivity extends AppCompatActivity {
         }
 
         // Load input fields
-        etIngredientType.setText( ingredient.getIngredientType().getName() );
-        etIngredientName.setText( ingredient.getName() );
-        etIngredientPrice.setText( String.format(Locale.getDefault(), "%f", ingredient.getPrice()) );
-        etIngredientCurrency.setText( ingredient.getCurrency());
-        etIngredientQuantity.setText( String.format(Locale.getDefault(),"%f", ingredient.getQuantity())  );
-        etIngredientUnit.setText( ingredient.getUnit() );
+        etIngredientType.setText(ingredient.getIngredientType().getName());
+        etIngredientName.setText(ingredient.getName());
+        etIngredientPrice.setText(String.format(Locale.getDefault(), "%f", ingredient.getPrice()));
+        etIngredientCurrency.setText(counter.getBankConnection().getCurrency());
+        etIngredientQuantity.setText(String.format(Locale.getDefault(), "%f", ingredient.getQuantity()));
+        etIngredientUnit.setText(ingredient.getUnit());
     }
 
     public void onSaveButtonClick(View view) {
 
         ingredient.getIngredientType().setName(etIngredientType.getText().toString());
         ingredient.setName(etIngredientName.getText().toString());
-        ingredient.setPrice(Float.valueOf(etIngredientPrice.getText().toString()));
-        ingredient.setQuantity(Float.valueOf(etIngredientQuantity.getText().toString()));
+
+
+        ingredient.setPrice(stringToFloat(etIngredientPrice.getText().toString()));
+        ingredient.setQuantity(stringToFloat(etIngredientQuantity.getText().toString()));
+
 
         try {
             Counter.getInstance().saveIngredient(ingredient);
-        }catch(Exception e) {
+        } catch (Exception e) {
             Log.d("TAG", "msg", e);
         }
         this.finish();
     }
 
-    public void onUnlockButtonClick(View view){
+    public void onUnlockButtonClick(View view) {
         etIngredientType.setEnabled(true);
         btnUnlock.setVisibility(View.GONE);
+    }
+
+    private float stringToFloat(String str) {
+
+        try {
+            NumberFormat nf = NumberFormat.getInstance(Locale.getDefault());
+            return nf.parse(str).floatValue();
+        } catch (ParseException e) {
+            Log.d("TAG", "msg", e);
+        }
+        return 0.0f;
     }
 
 }

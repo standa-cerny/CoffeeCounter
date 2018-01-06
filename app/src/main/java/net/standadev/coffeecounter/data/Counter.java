@@ -2,6 +2,7 @@ package net.standadev.coffeecounter.data;
 
 import android.content.Context;
 
+import net.standadev.coffeecounter.activities.SelectUserActivity;
 import net.standadev.coffeecounter.data.db.CounterDataProvider;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class Counter {
     private Map<Long, IngredientCounter> mapIdIngredientCounters;
 
     private CounterDataProvider dataProvider;
+    private BankConnection bankConnection;
 
     protected Counter(Context context) {
         ingredientCounters = new ArrayList<IngredientCounter>();
@@ -33,6 +35,8 @@ public class Counter {
         mapIdIngredientCounters = new HashMap<Long, IngredientCounter>();
 
         dataProvider = new CounterDataProvider(context);
+        bankConnection = new BankConnection(context);
+
 
     }
 
@@ -49,6 +53,9 @@ public class Counter {
         return instance;
     }
 
+    public BankConnection getBankConnection() {
+        return bankConnection;
+    }
 
     public void reload() {
         ingredientCounters.clear();

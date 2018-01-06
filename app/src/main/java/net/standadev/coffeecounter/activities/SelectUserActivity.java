@@ -62,6 +62,12 @@ public class SelectUserActivity extends AppCompatActivity {
                 context.startActivity(intent);
                 return true;
 
+            case R.id.menu_settings:
+                intent = new Intent(context, SettingsActivity.class);
+                context.startActivity(intent);
+                return true;
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }

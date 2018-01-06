@@ -15,5 +15,10 @@
           android:icon="@drawable/ic_menu_select_statement"
           compat:showAsAction="always"/>
 
+    <item android:id="@+id/menu_settings"
+        android:title="@string/menu_settings"
+        android:titleCondensed="@string/menu_settings"
+        compat:showAsAction="never"
+        />
 
 </menu>
