@@ -16,8 +16,6 @@ import net.standadev.coffeecounter.data.User;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static android.R.attr.id;
-
 /**
  * Created by Standa on 21.11.2017.
  */
@@ -128,11 +126,9 @@ public class CounterDataProvider {
                 CounterDb.IList.COL_NAME,
                 CounterDb.IList.COL_TYPE_ID,
                 CounterDb.IList.COL_PRICE,
-                CounterDb.IList.COL_CURRENCY,
                 CounterDb.IList.COL_QUANTITY,
-                CounterDb.IList.COL_UNIT,
-                CounterDb.IList.COL_BEGIN,
-                CounterDb.IList.COL_END,
+                CounterDb.IList.COL_DATE_FROM,
+                CounterDb.IList.COL_DATE_TO,
         };
 
 // Filter results WHERE "title" = 'My Title'
@@ -186,13 +182,13 @@ public class CounterDataProvider {
             ingredient.setQuantity(quantity);
 
             // Load period of ingredient
-            long begin = cursor.getLong(
-                    cursor.getColumnIndexOrThrow(CounterDb.IList.COL_BEGIN));
-            ingredient.setBegin(new Date(begin));
+            long date_from = cursor.getLong(
+                    cursor.getColumnIndexOrThrow(CounterDb.IList.COL_DATE_FROM));
+            ingredient.setDateFrom(new Date(date_from));
 
-            long end = cursor.getLong(
-                    cursor.getColumnIndexOrThrow(CounterDb.IList.COL_END));
-            ingredient.setEnd(new Date(end));
+            long date_to = cursor.getLong(
+                    cursor.getColumnIndexOrThrow(CounterDb.IList.COL_DATE_TO));
+            ingredient.setDateTo(new Date(date_to));
 
             result.add(ingredient);
         }
@@ -340,6 +336,9 @@ public class CounterDataProvider {
         // Projection
         String[] projection = {
                 CounterDb.ITypes.COL_NAME,
+                CounterDb.ITypes.COL_ACTIVE,
+                CounterDb.ITypes.COL_UNIT,
+
         };
 
 // Filter results WHERE "title" = 'My Title'
@@ -366,6 +365,14 @@ public class CounterDataProvider {
             String name = cursor.getString(
                     cursor.getColumnIndexOrThrow(CounterDb.ITypes.COL_NAME));
             result = new IngredientType(id, name);
+
+            Boolean isActive = 0 != cursor.getInt(
+                    cursor.getColumnIndexOrThrow(CounterDb.ITypes.COL_ACTIVE));
+            result.setActive(isActive);
+
+            String unit = cursor.getString(
+                    cursor.getColumnIndexOrThrow(CounterDb.ITypes.COL_UNIT));
+            result.setUnit(unit);
 
         } else {
             result = new IngredientType(0, "");

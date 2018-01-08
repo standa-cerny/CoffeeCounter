@@ -21,6 +21,7 @@ import java.util.Locale;
 public class ChangeIngredientActivity extends AppCompatActivity {
 
     private Ingredient ingredient;
+    private IngredientType ingredientType;
     EditText etIngredientType;
     EditText etIngredientName;
     EditText etIngredientPrice;
@@ -59,17 +60,21 @@ public class ChangeIngredientActivity extends AppCompatActivity {
         }
 
         // Load input fields
-        etIngredientType.setText(ingredient.getIngredientType().getName());
+        ingredientType = ingredient.getIngredientType();
+        etIngredientType.setText(ingredientType.getName());
+        etIngredientUnit.setText(ingredientType.getUnit());
+
         etIngredientName.setText(ingredient.getName());
         etIngredientPrice.setText(String.format(Locale.getDefault(), "%f", ingredient.getPrice()));
         etIngredientCurrency.setText(counter.getBankConnection().getCurrency());
         etIngredientQuantity.setText(String.format(Locale.getDefault(), "%f", ingredient.getQuantity()));
-        etIngredientUnit.setText(ingredient.getUnit());
+
     }
 
     public void onSaveButtonClick(View view) {
+        ingredientType.setName(etIngredientType.getText().toString());
+        ingredientType.setUnit(etIngredientUnit.getText().toString());
 
-        ingredient.getIngredientType().setName(etIngredientType.getText().toString());
         ingredient.setName(etIngredientName.getText().toString());
 
 
@@ -80,13 +85,14 @@ public class ChangeIngredientActivity extends AppCompatActivity {
         try {
             Counter.getInstance().saveIngredient(ingredient);
         } catch (Exception e) {
-            Log.d("TAG", "msg", e);
+            Log.d("Ingredient", "Save", e);
         }
         this.finish();
     }
 
     public void onUnlockButtonClick(View view) {
         etIngredientType.setEnabled(true);
+        etIngredientUnit.setEnabled(true);
         btnUnlock.setVisibility(View.GONE);
     }
 
@@ -96,7 +102,7 @@ public class ChangeIngredientActivity extends AppCompatActivity {
             NumberFormat nf = NumberFormat.getInstance(Locale.getDefault());
             return nf.parse(str).floatValue();
         } catch (ParseException e) {
-            Log.d("TAG", "msg", e);
+            Log.d("Ingredient", "NumberFormat", e);
         }
         return 0.0f;
     }

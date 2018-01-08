@@ -1,21 +1,13 @@
 package net.standadev.coffeecounter.adapters;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import net.standadev.coffeecounter.R;
-import net.standadev.coffeecounter.data.Counter;
 import net.standadev.coffeecounter.data.Ingredient;
 import net.standadev.coffeecounter.data.IngredientCounter;
-import net.standadev.coffeecounter.data.IngredientOrder;
-import net.standadev.coffeecounter.data.IngredientUser;
-import net.standadev.coffeecounter.data.StatementItem;
-import net.standadev.coffeecounter.data.User;
 
 import java.util.ArrayList;
 
@@ -47,7 +39,7 @@ public class IngredientClosedGridAdapter extends IngredientTotalGridAdapter{
         Ingredient i = ic.getIngredient();
         tvIngredientTypeName.setText("Type: " + i.getIngredientType().getName());
         tvIngredientName.setText("Name: " + i.getName());
-        tvFrom.setText("From : " + i.getBegin() );
+        tvFrom.setText("From : " + i.getDateFrom() );
 
         return convertView;
     }

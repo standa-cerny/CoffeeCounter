@@ -16,10 +16,9 @@ public class Ingredient extends BaseId{
 
     private float price;
     private float quantity;
-    private String unit;
 
-    private Date begin;
-    private Date end;
+    private Date dateFrom;
+    private Date dateTo;
 
     private boolean closed;
 
@@ -32,10 +31,9 @@ public class Ingredient extends BaseId{
         setPrice(0.0f);
 
         setQuantity(0.0f);
-        setUnit("Kg");
 
-        setBegin(new Date());
-        setEnd(new Date());
+        setDateFrom(new Date());
+        setDateTo(new Date());
     }
 
     public ContentValues getValues(){
@@ -46,9 +44,9 @@ public class Ingredient extends BaseId{
 
         values.put(CounterDb.IList.COL_PRICE, this.getPrice());
         values.put(CounterDb.IList.COL_QUANTITY, this.getQuantity());
-        values.put(CounterDb.IList.COL_UNIT, this.getUnit());
-        values.put(CounterDb.IList.COL_BEGIN, CounterDb.getDateTime(this.getBegin()));
-        values.put(CounterDb.IList.COL_END, CounterDb.getDateTime(this.getEnd()));
+        //values.put(CounterDb.IList.COL_UNIT, this.getUnit());
+        values.put(CounterDb.IList.COL_DATE_FROM, CounterDb.getDateTime(this.getDateFrom()));
+        values.put(CounterDb.IList.COL_DATE_TO, CounterDb.getDateTime(this.getDateTo()));
         values.put(CounterDb.IList.COL_CLOSED, this.isClosed());
 
         return values;
@@ -87,31 +85,23 @@ public class Ingredient extends BaseId{
         this.quantity = quantity;
     }
 
-    public String getUnit() {
-        return unit;
+    public Date getDateFrom() {
+        return dateFrom;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setDateFrom(Date dateFrom) {
+        this.dateFrom = dateFrom;
     }
 
-    public Date getBegin() {
-        return begin;
-    }
-
-    public void setBegin(Date begin) {
-        this.begin = begin;
-    }
-
-    public Date getEnd() {
+    public Date getDateTo() {
         if (!isClosed()){
             return new Date();
         }
-        return end;
+        return dateTo;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setDateTo(Date dateTo) {
+        this.dateTo = dateTo;
     }
 
     public boolean isClosed() {
@@ -120,7 +110,7 @@ public class Ingredient extends BaseId{
 
     public void setClosed(boolean closed) {
         this.closed = closed;
-        setEnd(new Date());
+        setDateTo(new Date());
     }
 
     public int getCounterIndex() {

@@ -12,7 +12,7 @@ import java.util.Date;
 public class CounterDb {
     private CounterDb(){}
 
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 8;
     public static final String DATABASE_NAME = "counter.db";
 
     public static class Users implements BaseColumns {
@@ -24,19 +24,21 @@ public class CounterDb {
     public static class ITypes implements BaseColumns {
         public static final String TABLE_NAME    = "i_types";
         public static final String COL_NAME      = "name";
+        public static final String COL_ACTIVE    = "active";
+        public static final String COL_UNIT      = "unit";
     }
 
     public static class IList implements BaseColumns {
-        public static final String TABLE_NAME   = "i_list";
-        public static final String COL_NAME     = "name";
-        public static final String COL_TYPE_ID  = "type_id";
-        public static final String COL_PRICE    = "price";
-        public static final String COL_CURRENCY = "currency";
-        public static final String COL_QUANTITY = "quantity";
-        public static final String COL_UNIT     = "unit";
-        public static final String COL_BEGIN    = "begin";
-        public static final String COL_END      = "end";
-        public static final String COL_CLOSED   = "closed";
+        public static final String TABLE_NAME    = "i_list";
+        public static final String COL_NAME      = "name";
+        public static final String COL_TYPE_ID   = "type_id";
+        public static final String COL_PRICE     = "price";
+        //public static final String COL_CURRENCY = "currency";
+        public static final String COL_QUANTITY  = "quantity";
+        //public static final String COL_UNIT     = "unit";
+        public static final String COL_DATE_FROM = "begin";
+        public static final String COL_DATE_TO   = "end";
+        public static final String COL_CLOSED    = "closed";
     }
 
     public static class IOrders implements BaseColumns {

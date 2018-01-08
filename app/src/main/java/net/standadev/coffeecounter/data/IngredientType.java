@@ -9,6 +9,8 @@ import net.standadev.coffeecounter.data.db.CounterDb;
  */
 
 public class IngredientType extends BaseId{
+    private boolean isActive = true;
+    private String unit;
 
     public IngredientType(long id, String name) {
         super(id, name);
@@ -17,7 +19,8 @@ public class IngredientType extends BaseId{
     public ContentValues getValues(){
         ContentValues values = new ContentValues();
         values.put(CounterDb.ITypes.COL_NAME, this.getName());
-
+        values.put(CounterDb.ITypes.COL_ACTIVE, this.isActive());
+        values.put(CounterDb.ITypes.COL_UNIT, this.getUnit());
         return values;
     }
 
@@ -26,5 +29,18 @@ public class IngredientType extends BaseId{
         return CounterDb.ITypes.TABLE_NAME;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 }

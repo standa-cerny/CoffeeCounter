@@ -162,6 +162,7 @@
         android:layout_height="40dp"
         android:layout_marginRight="8dp"
         android:ems="10"
+        android:enabled="false"
         android:inputType="none"
         android:text="Name"
         app:layout_constraintBaseline_toBaselineOf="@+id/etIngredientQuantity"
