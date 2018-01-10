@@ -2,6 +2,7 @@ package net.standadev.coffeecounter.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,13 +33,26 @@ public class UserGridAdapter extends UserBaseAdapter implements AdapterView.OnIt
             convertView = inflater.inflate(R.layout.item_user, null);
         }
 
+        // Prepare format strings
+        Resources res = context.getResources();
+        String currency = Counter.getInstance().getBankConnection().getCurrency();
+
         TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
         TextView tvUserDebt = (TextView) convertView.findViewById(R.id.tvUserDebt);
 
-        // UserCounter userC = new User(0, "name");
+        // Set user name
         UserCounter uc = userCounters.get(position);
-        tvUserName.setText("Name: " + uc.getUser().getName());
-        tvUserDebt.setText("Debt: " + uc.getDebt());
+        tvUserName.setText(uc.getUser().getName());
+
+        // Set user debt
+        String debt = "";
+        if (uc.getDebt() > 0.0f) {
+            try {
+                debt = res.getString(R.string.format_price, uc.getDebt(), currency);
+            }catch(Exception e){
+            }
+        }
+        tvUserDebt.setText(debt);
 
         // Ingredients grid view
         User user = uc.getUser();
