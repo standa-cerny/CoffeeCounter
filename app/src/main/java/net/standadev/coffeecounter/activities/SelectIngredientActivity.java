@@ -2,6 +2,7 @@ package net.standadev.coffeecounter.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +20,8 @@ import net.standadev.coffeecounter.data.UserCounter;
 
 public class SelectIngredientActivity extends AppCompatActivity {
 
+    private Context context;
+
     private UserCounter userCounter;
     private User user;
     private Button btnClearDebt;
@@ -29,13 +32,15 @@ public class SelectIngredientActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_ingredient);
 
+        context = SelectIngredientActivity.this;
+
         Intent intent = getIntent();
         long user_id = intent.getLongExtra(Counter.USER_ID, 0);
         userCounter = Counter.getInstance().getUserCounterFromId(user_id);
         user = userCounter.getUser();
 
         // Header
-        tvUserName = (TextView) findViewById(R.id.tvUserName);
+        tvUserName = (TextView) findViewById(R.id.tvCount);
         btnClearDebt = (Button)findViewById(R.id.btnClearDebt);
         loadUser();
 
@@ -86,13 +91,19 @@ public class SelectIngredientActivity extends AppCompatActivity {
 
 
     private void loadUser(){
-        String message = "user id: " + user.getId() + " " + user.getName();
-        // Capture the layout's TextView and set the string as its text
-        tvUserName.setText(message);
+        tvUserName.setText(user.getName());
 
+        // Prepare format strings
+        Resources res = context.getResources();
+        String currency = Counter.getInstance().getBankConnection().getCurrency();
+
+        // Display button for paying
         if (userCounter.getDebt() > 0.0f ) {
-            message = "Pay debt: " + userCounter.getDebt();
-            btnClearDebt.setText(message);
+            try {
+                btnClearDebt.setText(res.getString(R.string.btn_pay, userCounter.getDebt(), currency));
+            }catch(Exception e){
+            }
+
         }else{
             btnClearDebt.setVisibility(View.INVISIBLE);
         }

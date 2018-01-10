@@ -112,7 +112,7 @@ public class StatementActivity extends AppCompatActivity {
         TextView tvTotalPrice = (TextView) findViewById(R.id.tvTotalPrice);
         tvTotalPrice.setText("Total price: " + ic.getIngredient().getPrice());
 
-        TextView tvQuantity = (TextView) findViewById(R.id.tvUserName);
+        TextView tvQuantity = (TextView) findViewById(R.id.tvCount);
         tvQuantity.setText("Quantity: " + ic.getQuantity());
 
         TextView tvUnitPrice = (TextView) findViewById(R.id.tvUnitPrice);
