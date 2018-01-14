@@ -12,97 +12,141 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="8dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tvIngredientName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvIngredientTypeName"
         android:layout_marginStart="8dp"
-        android:id="@+id/tvIngredientName" />
+        android:layout_marginTop="7dp"
+        android:text="TextView"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvIngredientTypeName" />
 
     <Button
         android:id="@+id/btnCloseStatement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="17dp"
+        android:onClick="onCloseStatementClick"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:text="@string/statement_close"
         android:visibility="visible"
-        android:onClick="onCloseStatementClick"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lvUserStatement"
-        app:layout_constraintVertical_bias="0.491" />
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
 
     <TextView
         android:id="@+id/tvCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="TextView"
-        app:layout_constraintLeft_toRightOf="@+id/tvTotalPrice"
-        app:layout_constraintTop_toTopOf="@+id/tvTotalPrice"
-        android:layout_marginStart="8dp" />
+        android:text="@string/statement_total_count"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvLabelTotalCount"
+        app:layout_constraintLeft_toLeftOf="@+id/tvBegin" />
 
     <TextView
         android:id="@+id/tvUnitPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:text="TextView"
-        app:layout_constraintLeft_toRightOf="@+id/tvCount"
-        app:layout_constraintTop_toTopOf="@+id/tvCount"
-        android:layout_marginStart="8dp" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvLabelUnitPrice"
+        app:layout_constraintLeft_toLeftOf="@+id/tvTotalPrice" />
 
     <TextView
         android:id="@+id/tvTotalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:text="TextView"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvIngredientName"
-        android:layout_marginStart="8dp" />
-
-    <ListView
-        android:id="@+id/lvUserStatement"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="9dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvTotalPrice"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintBottom_toTopOf="@+id/btnCloseStatement"
-        android:layout_marginBottom="32dp" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvLabelTotalPrice"
+        app:layout_constraintLeft_toLeftOf="@+id/tvBegin" />
 
     <TextView
         android:id="@+id/tvBegin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="0dp"
         android:text="TextView"
-        app:layout_constraintLeft_toRightOf="@+id/tvUnitPrice"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvLabelPeriod"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline2"
+        android:layout_marginStart="8dp" />
+
+    <ListView
+        android:id="@+id/lvUserStatement"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCloseStatement"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginTop="64dp"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
         app:layout_constraintTop_toTopOf="@+id/tvUnitPrice" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline2"
+        app:layout_constraintGuide_begin="104dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="104dp" />
+
+    <TextView
+        android:id="@+id/tvLabelPeriod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:text="@string/statement_period"
+        app:layout_constraintLeft_toLeftOf="@+id/tvIngredientName"
+        app:layout_constraintTop_toBottomOf="@+id/tvIngredientName" />
+
+    <TextView
+        android:id="@+id/tvLabelTotalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/statement_total_price"
+        app:layout_constraintTop_toBottomOf="@+id/tvLabelTotalCount"
+        app:layout_constraintLeft_toLeftOf="@+id/tvLabelTotalCount" />
+
+    <TextView
+        android:id="@+id/tvLabelUnitPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:text="@string/statement_unit_price"
+        app:layout_constraintLeft_toLeftOf="@+id/tvLabelTotalPrice"
+        app:layout_constraintTop_toBottomOf="@+id/tvLabelTotalPrice" />
+
+    <TextView
+        android:id="@+id/tvLabelTotalCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/statement_total_count"
+        app:layout_constraintTop_toBottomOf="@+id/tvLabelPeriod"
+        app:layout_constraintLeft_toLeftOf="@+id/tvLabelPeriod" />
+
 </android.support.constraint.ConstraintLayout>

@@ -24,8 +24,11 @@ public class SelectIngredientActivity extends AppCompatActivity {
 
     private UserCounter userCounter;
     private User user;
+
     private Button btnClearDebt;
     private TextView tvUserName;
+
+    private IngredientUserGridAdapter ingredientGridAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,6 @@ public class SelectIngredientActivity extends AppCompatActivity {
         // Ingredients grid view
         Counter counter = Counter.getInstance();
         GridView gvIngredients;
-        IngredientUserGridAdapter ingredientGridAdapter;
         ingredientGridAdapter = new IngredientUserGridAdapter(SelectIngredientActivity.this, userCounter);
 
         gvIngredients = (GridView) findViewById(R.id.gvIngredients);
@@ -59,6 +61,7 @@ public class SelectIngredientActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadUser();
+        ingredientGridAdapter.notifyDataSetChanged();
     }
 
     @Override

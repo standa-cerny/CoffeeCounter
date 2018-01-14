@@ -171,6 +171,10 @@ public class CounterDataProvider {
 
             Ingredient ingredient = new Ingredient(id, name, getIngredientType(type_id));
 
+            // Set status of statement (especially for closed statements, this line must be before
+            // setting of dateTo field
+            ingredient.setClosed(isClosed);
+
             // Load price
             float price = cursor.getFloat(
                     cursor.getColumnIndexOrThrow(CounterDb.IList.COL_PRICE));

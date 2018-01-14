@@ -30,6 +30,7 @@ public class Statement {
 
     public void addItem(StatementItem item){
         items.add(item);
+        ingredientCounter.addQuantity(item.getIngredientUser().getQuantity());
     }
 
     public boolean isClosed() {
