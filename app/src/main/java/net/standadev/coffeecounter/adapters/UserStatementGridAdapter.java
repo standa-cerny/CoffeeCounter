@@ -72,8 +72,6 @@ public class UserStatementGridAdapter extends BaseAdapter implements AdapterView
         Resources res = context.getResources();
         String currency = Counter.getInstance().getBankConnection().getCurrency();
 
-
-
         TextView tvUserName = convertView.findViewById(R.id.tvUserName);
         TextView tvCount = convertView.findViewById(R.id.tvCount);
         TextView tvPrice = convertView.findViewById(R.id.tvPrice);

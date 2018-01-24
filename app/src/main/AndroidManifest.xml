@@ -21,9 +21,13 @@
         </activity>
         <activity android:name=".activities.ChangeUserActivity" />
         <activity android:name=".activities.SelectStatementActivity" />
-        <activity android:name=".activities.StatementActivity" />
+        <activity
+            android:name=".activities.StatementActivity"
+            android:label="@string/title_statement" />
         <activity android:name=".activities.ChangeIngredientActivity" />
-        <activity android:name=".activities.ListClosedStatementsActivity" />
+        <activity
+            android:name=".activities.ListClosedStatementsActivity"
+            android:label="@string/title_closed_statements" />
         <activity android:name=".activities.SettingsActivity"></activity>
     </application>
 

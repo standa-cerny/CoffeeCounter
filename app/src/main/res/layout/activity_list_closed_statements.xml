@@ -6,8 +6,9 @@
     android:layout_height="match_parent"
     tools:context="net.standadev.coffeecounter.activities.ListClosedStatementsActivity">
 
-    <GridView
-        android:id="@+id/gvClosedIngredients"
+
+    <ListView
+        android:id="@+id/lvClosedIngredients"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"

@@ -2,13 +2,12 @@ package net.standadev.coffeecounter.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.GridView;
+import android.widget.ListView;
 
 import net.standadev.coffeecounter.R;
 import net.standadev.coffeecounter.adapters.IngredientClosedGridAdapter;
 import net.standadev.coffeecounter.adapters.IngredientTotalGridAdapter;
 import net.standadev.coffeecounter.data.Counter;
-import net.standadev.coffeecounter.data.Ingredient;
 import net.standadev.coffeecounter.data.IngredientCounter;
 
 import java.util.ArrayList;
@@ -24,15 +23,15 @@ public class ListClosedStatementsActivity extends AppCompatActivity {
 
         // Ingredients grid view
         Counter counter = Counter.getInstance();
-        GridView gvIngredients;
+        ListView lvIngredients;
 
         ArrayList<IngredientCounter> ic = new ArrayList<IngredientCounter>();
         ingredientGridAdapter = new IngredientClosedGridAdapter(ListClosedStatementsActivity.this, counter.getListOfClosedIngredientCounter());
 
-        gvIngredients = (GridView) findViewById(R.id.gvClosedIngredients);
-        gvIngredients.setAdapter(ingredientGridAdapter);
+        lvIngredients = (ListView) findViewById(R.id.lvClosedIngredients);
+        lvIngredients.setAdapter(ingredientGridAdapter);
 
         // Set on click adapter
-        gvIngredients.setOnItemClickListener(ingredientGridAdapter);
+        lvIngredients.setOnItemClickListener(ingredientGridAdapter);
     }
 }
